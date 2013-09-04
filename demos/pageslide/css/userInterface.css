@@ -1,0 +1,50 @@
+a {
+	text-decoration: none;
+}
+a:link {color:#FFF;}      /* unvisited link */
+a:visited {color:#FFF;}  /* visited link */
+a:hover {color:#1fcaee;}  /* mouse over link */
+a:active {color:#1fcaee;}  /* selected link */
+#modal {
+	display: none;
+}
+.ControlBox {
+	background-color: black;
+	color: white;
+	text-align: center;
+	position: absolute;
+	width: 10%;
+	height: 10%;
+	right: 100px;
+	bottom: 100px;
+	background-color:#333;
+	-webkit-box-shadow: inset 0 0 5px 5px #222;
+	-moz-shadow: inset 0 0 5px 5px #222;
+	box-shadow: inset 0 0 5px 5px #222;
+}
+#CloseButton {
+	width: 15%;
+	padding: 5px;
+	background-color: black;
+}
+#modal-border {
+	width: 20px;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color:#333;
+	-webkit-box-shadow: inset 0 0 5px 5px #222;
+	-moz-shadow: inset 0 0 5px 5px #222;
+	box-shadow: inset 0 0 5px 5px #222;
+}
+body {
+	background-color: #474747;
+}
+canvas {
+	left: 25px;
+	top: 25px;
+	width: 80% !important;
+	height: 80% !important;
+	position: absolute;
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>User Interface Example!</title>
+		
+		<!-- CSS Files -->
+        <link rel="stylesheet" type="text/css" href="css/stylesheet.css"/>
+		<link rel="stylesheet" type="text/css" href="css/jquery.pageslide.css" />
+		<link rel="stylesheet" type="text/css" href="css/userInterface.css" />
+		
+		<!-- Javascript Files -->
+		<script type="text/javascript" src="lib/script.js"></script>
+		<script src="js/three.min.js"></script>
+		<script src="js/spin-cube.js" defer="defer"></script>
+
+
+    </head>
+    <body>
+		<div id="modal-border" href="#modal" class="second"></div>
+		<div id="modal">
+            <h2>Advance Control Panel</h2>
+            <p>Various Controls Here</p>
+            <p id="CloseButton"><a href="javascript:$.pageslide.close()">Close</a></p>
+        </div>
+		<div id="ControlBox" class="ControlBox">
+			Control Box
+			<br/>
+			<a href="#modal" class="second" >Open side window</a>
+		</div>
+    </body>
+	<!-- These js files need to be down here to work correctly -->
+	<script src="js/jquery-1.7.1.min.js"></script>
+	<script src="js/jquery.pageslide.min.js"></script>
+    <script defer="defer"> 
+		/* Default pageslide, moves to the right */
+		$(".first").pageslide();
+		/* Slide to the left, and make it model (you'll have to call $.pageslide.close() to close) */
+		$(".second").pageslide({ direction: "right", modal: true });
+	</script>
+</html>
