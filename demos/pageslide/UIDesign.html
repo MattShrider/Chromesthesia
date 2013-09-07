@@ -1,40 +1,56 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>User Interface Example!</title>
-		
+        <title>Chromesthesia</title>
 		<!-- CSS Files -->
-        <link rel="stylesheet" type="text/css" href="css/stylesheet.css"/>
 		<link rel="stylesheet" type="text/css" href="css/jquery.pageslide.css" />
 		<link rel="stylesheet" type="text/css" href="css/userInterface.css" />
-		
 		<!-- Javascript Files -->
-		<script type="text/javascript" src="lib/script.js"></script>
 		<script src="js/three.min.js"></script>
 		<script src="js/spin-cube.js" defer="defer"></script>
-
-
+		<!-- Jquery UI Assets -->
+		<script src="js/jquery-1.7.1.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.22/jquery-ui.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/>
     </head>
     <body>
-		<div id="modal-border" href="#modal" class="second"></div>
+    	<!-- The Side-Window that will display the advanced controls -->
 		<div id="modal">
             <h2>Advance Control Panel</h2>
             <p>Various Controls Here</p>
-            <p id="CloseButton"><a href="javascript:$.pageslide.close()">Close</a></p>
+            <p id="CloseButton" class="Button"><a href="javascript:$.pageslide.close()">Close</a></p>
+			<div id="cite" class="citations">JS For Visualizer borrowed from: <a href="http://airtightinteractive.com/demos/js/reactive/"> felixturner </a></div>
         </div>
-		<div id="ControlBox" class="ControlBox">
-			Control Box
-			<br/>
-			<a href="#modal" class="second" >Open side window</a>
+        <!-- The Welcome Dialog box that promptsthe user for the initial sound -->
+        <div id="WelcomeBox" class="DialogBox">
+        	<div id="WelcomeTitle" class="DialogTitle">Welcome to Chromesthesia</div>
+        	<div class="space"></div>
+        	<div id="loadYoutube" class="Button WelcomeButton" align="center" href="#youtubeDiv">Load Youtube Video</div>
+        	<div class="space"></div>
+        	<div id="loadSoundCloud" class="Button WelcomeButton" align="center" href="#soundcloudDiv">Load Soundcloud Song</div>
+        	<div class="space"></div>
+        	<div id="loadLocal" class="Button WelcomeButton" align="center" href="#localDiv">Upload Local Song</div>
+        	<div class="space"></div>
+        	<div id="loadSample" class="Button WelcomeButton" align="center" href="" onclick="loadSampleAudio()">Load Sample</div>
+        </div>
+        <!-- These basic control box that contains the simple controls -->
+		<div id="ControlBox" class="ControlBox DialogBox">
+			<div id="CBTitle" class="DialogTitle">Control Box</div>
+			<div id="CBControls" class="CBControls">
+				Basic App Starting Instruction
+				<div class="space"></div>
+				<table id="ButtonContainer" align="center">
+					<td id="RecordSound" class="Button" >Record</td>
+					<td id="PlaySound" class="Button" >Play</td>
+					<td id="StopSound" class="Button" >Stop</td>
+				</table>
+				<div class="space"></div>
+				<a id="SideWindow" href="#modal" class="advance-controls Button" >Advance Controls</a>
+			</div>
 		</div>
     </body>
 	<!-- These js files need to be down here to work correctly -->
-	<script src="js/jquery-1.7.1.min.js"></script>
 	<script src="js/jquery.pageslide.min.js"></script>
-    <script defer="defer"> 
-		/* Default pageslide, moves to the right */
-		$(".first").pageslide();
-		/* Slide to the left, and make it model (you'll have to call $.pageslide.close() to close) */
-		$(".second").pageslide({ direction: "right", modal: true });
-	</script>
+    <script src="js/ui-functions.js" defer="defer"></script>
+    <!-- Below is the canvas that will display the 3D scene -->
 </html>
