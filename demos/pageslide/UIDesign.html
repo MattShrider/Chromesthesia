@@ -5,13 +5,13 @@
 		<!-- CSS Files -->
 		<link rel="stylesheet" type="text/css" href="css/jquery.pageslide.css" />
 		<link rel="stylesheet" type="text/css" href="css/userInterface.css" />
+		<link href="css/GVSU-Theme/jquery-ui-1.10.3.custom.css" rel="stylesheet">
 		<!-- Javascript Files -->
 		<script src="js/three.min.js"></script>
-		<script src="js/spin-cube.js" defer="defer"></script>
+		<!-- <script src="js/spin-cube.js" defer="defer"></script> -->
 		<!-- Jquery UI Assets -->
-		<script src="js/jquery-1.7.1.min.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.22/jquery-ui.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/>
+		<script src="js/jquery-1.9.1.js"></script>
+		<script src="js/jquery-ui-1.10.3.custom.js"></script>
     </head>
     <body>
     	<!-- The Side-Window that will display the advanced controls -->
@@ -22,16 +22,30 @@
 			<div id="cite" class="citations">JS For Visualizer borrowed from: <a href="http://airtightinteractive.com/demos/js/reactive/"> felixturner </a></div>
         </div>
         <!-- The Welcome Dialog box that promptsthe user for the initial sound -->
-        <div id="WelcomeBox" class="DialogBox">
-        	<div id="WelcomeTitle" class="DialogTitle">Welcome to Chromesthesia</div>
-        	<div class="space"></div>
-        	<div id="loadYoutube" class="Button WelcomeButton" align="center" href="#youtubeDiv">Load Youtube Video</div>
-        	<div class="space"></div>
-        	<div id="loadSoundCloud" class="Button WelcomeButton" align="center" href="#soundcloudDiv">Load Soundcloud Song</div>
-        	<div class="space"></div>
-        	<div id="loadLocal" class="Button WelcomeButton" align="center" href="#localDiv">Upload Local Song</div>
-        	<div class="space"></div>
-        	<div id="loadSample" class="Button WelcomeButton" align="center" href="" onclick="loadSampleAudio()">Load Sample</div>
+        <div id="WelcomeBox" title="Welcome to Chromesthesia"></div>
+        <div id="YoutubeLink" title="Youtube Video" style="display:none;">
+        	<form>
+  				<fieldset>
+    				<label for="name">Youtube Link</label>
+    				<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />
+  				</fieldset>
+			</form>
+        </div>
+        <div id="SoundCloudLink" title="Sound Cloud Song" style="display:none;">
+        	<form>
+  				<fieldset>
+    				<label for="name">Sound Cloud Link</label>
+    				<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />
+  				</fieldset>
+			</form>
+		</div>
+        <div id="LocalUpload" title="Song Upload" style="display:none;">
+        	<form>
+  				<fieldset>
+    				<label for="name">Upload Song</label>
+    				<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />
+  				</fieldset>
+			</form>
         </div>
         <!-- These basic control box that contains the simple controls -->
 		<div id="ControlBox" class="ControlBox DialogBox">
@@ -40,12 +54,12 @@
 				Basic App Starting Instruction
 				<div class="space"></div>
 				<table id="ButtonContainer" align="center">
-					<td id="RecordSound" class="Button" >Record</td>
-					<td id="PlaySound" class="Button" >Play</td>
-					<td id="StopSound" class="Button" >Stop</td>
+					<td id="RecordSound" > <button class="Button">Record</button></td>
+					<td id="PlaySound" ><button class="Button">Play</button></td>
+					<td id="StopSound" ><button class="Button">Stop</button></td>
 				</table>
 				<div class="space"></div>
-				<a id="SideWindow" href="#modal" class="advance-controls Button" >Advance Controls</a>
+				<button id="SideWindow" href="#modal" class="advance-controls Button" >Advance Controls</button>
 			</div>
 		</div>
     </body>

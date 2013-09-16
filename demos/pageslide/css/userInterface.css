@@ -9,11 +9,21 @@ a:active {color:#1fcaee;}  /* selected link */
 	display: none;
 }
 
+.no-close .ui-dialog-titlebar-close {
+    display: none;
+}
+
+.ui-dialog .ui-dialog-title {
+  text-align: center;
+  
+}
+
 #WelcomeBox {
 	width: 30%;
 	position: fixed;
 	left: 35%;
 	top: 35%;
+	text-align: center;
 }
 
 .WelcomeButton {
@@ -36,16 +46,20 @@ a:active {color:#1fcaee;}  /* selected link */
 	border-radius: 5px;
 }
 
-#ControlBox {
-	width: 20%;
-	height: 20%;
-	position: fixed;
-	right: 100px;
-	bottom: 100px;
+.ControlBox {
+	width: 20% !important;
+	height: 23% !important;
+	position: fixed !important;
+	right: 100px !important;
+	bottom: 100px !important;
 }
 
 .CBControls {
 	height: 90%;
+}
+
+.DialogTitle {
+	background-color: #0817ce;
 }
 
 .DialogTitle {
@@ -74,15 +88,17 @@ a:active {color:#1fcaee;}  /* selected link */
 	padding-right: 5px;
 	background-color: gray;
 	border: solid;
-	border-width: 3px;
-	border-radius: 10px;
-	border-color: black;
+	border-width: 2px;
+	border-radius: 5px;
+	border-color: rgba(0,0,0,10);
 	vertical-align: center;
 	text-align: center
 }
 
 .Button:hover{
 	background-color: #056495;
+	color: white;
+	cursor: pointer;
 }
 
 .citations {
