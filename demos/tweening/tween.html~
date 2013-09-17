@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Tween.js</title>
+      <style type="text/css">body {canvas:#000000;}</style>
+   </head>
+   <body>
+      <script src="../../js/three.min.js"></script>
+      <script src="../../js/tween.min.js"></script>
+      <script src="tweenWebGL.js"></script>
+   </body>
+</html>
