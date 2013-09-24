@@ -1,0 +1,162 @@
+a {
+	text-decoration: none;
+}
+a:link {color:#FFF;}      /* unvisited link */
+a:visited {color:#FFF;}  /* visited link */
+a:hover {color:#FFF;}  /* mouse over link */
+a:active {color:#1fcaee;}  /* selected link */
+
+#modal {
+	display: none;
+}
+
+.no-close .ui-dialog-titlebar-close {
+    display: none;
+}
+
+.ui-dialog .ui-dialog-title {
+  text-align: center;
+  
+}
+
+#WelcomeBox {
+	width: 30%;
+	height: 40%;
+	position: fixed;
+	left: 35%;
+	top: 35%;
+	text-align: center;
+	z-index: 99;
+}
+
+#LocalButton, #RemoteButton, #SampleButton {
+	width: 100%;
+}
+
+#LoadRemoteDialog {
+	position: fixed;
+	width: 30%;
+	height: 10%;
+	left: 35%;
+	top: 35%;
+	z-index: 99;
+}
+
+.Close {
+	position: absolute;
+	height: 15px;
+	width: 10px;
+	top: 7px;
+	right: 7px;
+	border-radius: 50px !important;
+	font-size: .8em;
+
+}
+.Close:hover {
+	background-color: #ea0000 !important;
+
+}
+.DialogBox {
+	background-color: black;
+	padding: 7px;
+	color: white;
+	text-align: center;
+	min-width: 20%;
+	min-height: 20%;
+	background-color:#333;
+	border: solid;
+	border-size: 2px;
+	border-color: white;
+	border-radius: 5px;
+}
+.ButtonContainer{
+	list-style-type: none;
+	padding: 0;
+	padding-top: 10px;
+	margin: 0;
+	width: 100%;
+}
+.DialogTitle {
+	min-height: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-size: 1.3em;
+	background-color: #404040;
+}
+
+.DialogFooter {
+	width: 100%;
+	position: absolute;
+	max-height: 20px;
+	bottom: 0px;
+	left: 0px;
+	background-color: #404040;
+}
+
+.ControlBox {
+	width: 20% !important;
+	height: 23% !important;
+	position: fixed !important;
+	right: 100px !important;
+	bottom: 100px !important;
+}
+
+.CBControls {
+	height: 90%;
+}
+
+
+.TitleTable {
+	width: 100%;
+}
+
+#ButtonContainer {
+	height: 20%;
+}
+
+#CloseButton {
+	width: 35px;
+}
+
+#SideWindow {
+	width: 100%;
+}
+
+.Button {
+	padding: 2px;
+	padding-left: 5px;
+	padding-right: 5px;
+	background-color: gray;
+	border: solid;
+	border-width: 2px;
+	border-radius: 5px;
+	border-color: rgba(0,0,0,10);
+	vertical-align: center;
+	text-align: center
+}
+
+.Button:hover{
+	background-color: #056495;
+	color: white;
+	cursor: pointer;
+}
+
+.citations {
+	position: fixed;
+	bottom: 10px;
+}
+
+.space {
+	padding: 5px;
+}
+
+body {
+	background-color: #474747;
+}
+
+canvas {
+	width: 99% !important;
+	height: 99% !important;
+	position: fixed;
+	z-index: -1000;
+}
