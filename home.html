@@ -2,14 +2,19 @@
 <html>
     <head>
         <title>Chromesthesia</title>
+        <!-- Jquery UI Assets -->
+        <script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+        <script type="text/javascript" src="js/jquery-ui-1.10.3.custom.js"></script>
+        <script type="text/javascript" src="js/jquery.cookie.js"></script>
+        <script type="text/javascript" src="js/spectrum.js"></script>
+        <script type="text/javascript" src="js/jquery.fontselect.js"></script>
 		<!-- CSS Files -->
 		<link rel="stylesheet" type="text/css" href="css/jquery.pageslide.css" />
 		<link rel="stylesheet" type="text/css" href="css/userInterface.css" />
+        <link rel="stylesheet" type="text/css" href="css/spectrum.css" />
+        <link rel="stylesheet" type="text/css" href="css/fontselect.css" />
 		<!-- Javascript Files -->
 		<script src="js/three.min.js"></script>
-		<!-- Jquery UI Assets -->
-		<script src="js/jquery-1.9.1.js"></script>
-		<script src="js/jquery-ui-1.10.3.custom.js"></script>
     </head>
     <body>
     	<!-- The Side-Window that will display the advanced controls -->
@@ -49,14 +54,40 @@
 					<td id="RecordSound" > <button class="Button">Record</button></td>
 					<td id="PlaySound" ><button class="Button">Play</button></td>
 					<td id="StopSound" ><button class="Button">Stop</button></td>
+                    <td id="Settings"><button id="testButton" class="Button">Settings</button></td>
 				</table>
 				<div class="space"></div>
 				<button id="SideWindow" href="#modal" class="advance-controls Button" >Advance Controls</button>
 			</div>
 		</div>
+        <div id="SettingsDialog" class="DialogBox" style="display:none;">
+            <div id="SettingsTitle" class="DialogTitle">Settings</div>
+            <button class="Button Close" Title="Close Window"></button>
+            <div id="MainWindowSettings" class="SettingsContainer">
+                <div class="divTitle">Main Window Options</div>
+                <ul class="ButtonContainer">
+                    <li class="SettingsCell">Background Color: <input type='text' id="BackgroundColor"/></li>
+                </ul>
+            </div>
+            <div id="DialogWindowSettings" class="SettingsContainer">
+                <div class="divTitle">Dialog Window Options</div>
+                <ul class="ButtonContainer">
+                    <li class="SettingsCell">Font Type: <input id="font" type="text" style="display: none;"></li>
+                    <li class="SettingsCell">Font Size: <input id="DialogFontSize" type='number'style="width: 30%;"/></li>
+                    <li class="SettingsCell">Font Color: <input type='text' id="DialogFontColor"/></li>
+                    <li class="SettingsCell">Background Color: <input type='text' id="DialogBGColor"/></li>
+                    <li class="SettingsCell">Border Radius: <input id="DialogBorderRadius" type='number' style="width: 30%;"/></li>
+                    <li class="SettingsCell">Border Color: <input type='text' id="DialogBorderColor"/></li>
+                    <li class="SettingsCell">Border Size: <input id="DialogBorderSize" type='number' style="width: 30%;"/></li>
+                </ul>
+            </div>
+            <div id="SettingsFooter" class="DialogFooter">
+                Yea, footers are awesome
+            </div>
+        </div>
     </body>
 	<!-- These js files need to be down here to work correctly -->
-	<script src="js/jquery.pageslide.min.js"></script>
-    <script src="js/ui-functions.js" defer="defer"></script>
+	<script type="text/javascript" src="js/jquery.pageslide.min.js"></script>
+    <script type="text/javascript" src="js/ui-functions.js" defer="defer"></script>
     <!-- Below is the canvas that will display the 3D scene -->
 </html>
