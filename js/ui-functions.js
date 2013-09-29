@@ -37,6 +37,10 @@ $("#testButton").click(function(){
 
 });
 
+$("#WelcomeButton").click(function(){
+    $("#WelcomeBox").show();
+});
+
 $("#BackgroundColor").spectrum({
     color: "#ECC",
     showInput: true,
