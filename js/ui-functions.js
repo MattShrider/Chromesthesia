@@ -22,6 +22,11 @@ $("#RemoteSubmit").click(function(){
 	$("#ControlBox").show();
 });
 
+$("#RemoteCancel").click(function(){
+    $("#LoadRemoteDialog").hide();
+    $("#WelcomeBox").show();
+});
+
 $("#SampleButton").click(function(){
 	alert("Sample Song Load goes here...")
 	$("#ControlBox").show();

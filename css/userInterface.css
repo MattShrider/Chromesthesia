@@ -33,9 +33,19 @@ a:active {color:#1fcaee;}  /* selected link */
 	z-index: 99;
 }
 
+.SubmitCancel {
+	position: absolute;
+	width: 50%;
+	height: 10%;
+	bottom: 45px;
+	right: 10px;
+}
+
 #SettingsDialog {
-	width: 97%;
-	height: 95%;
+	width: 40%;
+	height: 50%;
+	left: 20%;
+	top: 20%;
 	position: fixed;
 	text-align: center;
 	z-index: 99;
@@ -60,15 +70,15 @@ a:active {color:#1fcaee;}  /* selected link */
 	text-align: left;
 	position: absolute;
 	left: 5px;
-	top: 7%;
-	width: 18%;
+	top: 50px;
+	width: 225px;
 }
 
 #DialogWindowSettings {
 	position: absolute;
 	left: 5px;
-	top: 19%;
-	width: 18%;
+	top: 130px;
+	width: 225px;
 }
 
 .Close {
@@ -181,7 +191,7 @@ a:active {color:#1fcaee;}  /* selected link */
 }
 
 .space {
-	padding: 5px;
+	padding: 3px;
 }
 
 body {

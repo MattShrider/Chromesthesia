@@ -39,10 +39,15 @@
         </div>
         <div id="LoadRemoteDialog" class="DialogBox" style="display: none;">
             <div class="DialogTitle">Enter Remote Address for Song</div>
+            <button class="Button Close" Title="Close Window"></button>
             <ul class="ButtonContainer">
                 <li><input id="RemoteURL" type="text"style="width: 100%;"/><li>
-                <li><div id="RemoteSubmit" class="Button">Submit</div></li>
             </ul>
+            <div id="RemoteFunction" class="SubmitCancel">
+                <div id="RemoteCancel" class="Button">Cancel</div>
+                <div class="space"></div>
+                <div id="RemoteSubmit" class="Button">Submit</div>
+            </div>
         </div>
         <!-- These basic control box that contains the simple controls -->
 		<div id="ControlBox" class="ControlBox DialogBox" style="display: none;">
@@ -69,6 +74,7 @@
                     <li class="SettingsCell">Background Color: <input type='text' id="BackgroundColor"/></li>
                 </ul>
             </div>
+            <br/>
             <div id="DialogWindowSettings" class="SettingsContainer">
                 <div class="divTitle">Dialog Window Options</div>
                 <ul class="ButtonContainer">
