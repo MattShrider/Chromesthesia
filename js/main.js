@@ -54,3 +54,11 @@ function requestSong(url){
 function play() {
    source.noteOn(0);
 }
+
+function loadClientSong(file){
+
+}
+
+function loadRemoteSong(url){
+
+}
