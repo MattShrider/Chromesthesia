@@ -2,6 +2,7 @@ function animate(){
    
 
    renderer.render(scene,camera);
+   controls.update();
    requestAnimationFrame(function(){
       animate();
    });
@@ -14,6 +15,9 @@ document.body.appendChild(renderer.domElement);
 
 var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
 camera.position.z = 500;
+
+var controls = new THREE.OrbitControls(camera);
+controls.addEventListener('change', animate);
 
 var scene = new THREE.Scene();
 
