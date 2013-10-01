@@ -15,12 +15,8 @@
         <link rel="stylesheet" type="text/css" href="css/fontselect.css" />
 		<!-- Javascript Files -->
 		<script src="js/three.min.js"></script>
-      <script src="js/tween.min.js"></script>
     </head>
     <body>
-       <script src="js/OrbitControls.js"></script>
-       <script src="js/main.js"></script>
-       <script src="js/scenes/scene1.js"></script>
     	<!-- The Side-Window that will display the advanced controls -->
 		<div id="modal">
             <h2>Advance Control Panel</h2>
@@ -39,7 +35,8 @@
                 <li class="ButtonList"><button id="RemoteButton" class="Button" title="Load Remote song through URL">Load Remote</button></li>
                 <li class="ButtonList"><button id="SampleButton" class="Button" title="Load Sample song">Load Sample</button></li>
             </ul>
-            <input id="LocalSong" type="file" style="display: none;" onChange="fileSelected()";/>
+            <input id="LocalSong" type="file" accept="audio/*"style="display: none;" />
+            <audio id="audio_player" />
         </div>
         <div id="LoadRemoteDialog" class="DialogBox" style="display: none;">
             <div class="DialogTitle">Enter Remote Address for Song</div>
