@@ -1,3 +1,4 @@
+//Makes Dialog Boxes Draggable
 $(".DialogBox").draggable();
 
 /* Slide to the left, and make it model (you'll have to call $.pageslide.close() to close) */
@@ -7,6 +8,7 @@ $(".Close").click(function(){
 	$("#ControlBox").show();
 });
 
+//Functions on what happens when each button is clicked
 $("#LocalButton").click(function(){
 	$('input[type=file]').click();
 });
@@ -42,6 +44,16 @@ $("#WelcomeButton").click(function(){
 });
 
 
+LocalSong.onchange = function(){
+    var files = this.files;
+    var file = URL.createObjectURL(files[0]); 
+    audio_player.src = file; 
+    audio_player.play();
+};
+
+//Below are funtions that handle the appearance change of the UI
+//They are connected to the inputs on the setting dialog window
+//Body
 $("#BackgroundColor").spectrum({
     color: "#ECC",
     showInput: true,
@@ -68,6 +80,7 @@ $("#BackgroundColor").spectrum({
     },
 });
 
+//Dialog Windows
 $('#font').fontselect().change(function(){
         
           // replace + signs with spaces for css
@@ -172,22 +185,7 @@ $("#DialogBorderColor").spectrum({
     },
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//Dialog Title
 $("#DialogTitleFontColor").spectrum({
     color: "#ECC",
     showInput: true,
@@ -251,21 +249,7 @@ $("#DialogTitleBorderRadius").on('keyup change click', function () {
     
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//Dialog Footer
 $("#DialogFooterFontColor").spectrum({
     color: "#ECC",
     showInput: true,
@@ -329,19 +313,7 @@ $("#DialogFooterBorderRadius").on('keyup change click', function () {
     
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+//Buttons
 $("#ButtonFontColor").spectrum({
     color: "#ECC",
     showInput: true,
@@ -434,25 +406,7 @@ $("#ButtonBorderColor").spectrum({
     },
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//CLose Button
 $("#CloseButtonBGColor").spectrum({
     color: "#ECC",
     showInput: true,
@@ -514,20 +468,7 @@ $("#CloseButtonBorderColor").spectrum({
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//Advance Settings
 $("#ModalBGColor").spectrum({
     color: "#ECC",
     showInput: true,
@@ -581,28 +522,6 @@ $("#ModalFontColor").spectrum({
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function fileSelected() {
-	$("#WelcomeBox").hide();
-	alert($("#LocalSong").val());
-	$("#ControlBox").show();
-}
 
 function updateBackgroundColor(element, color){
 	$(element).css("background-color", color.toString());
