@@ -11,8 +11,8 @@ a:active {color:#1fcaee;}  /* selected link */
 }
 
 #WelcomeBox {
-	width: 30%;
-	height: 40%;
+	width: 300px;
+	height: 200px;
 	position: fixed;
 	left: 35%;
 	top: 35%;
@@ -26,8 +26,8 @@ a:active {color:#1fcaee;}  /* selected link */
 
 #LoadRemoteDialog {
 	position: fixed;
-	width: 30%;
-	height: 10%;
+	width: 300px;
+	height: 150px;
 	left: 35%;
 	top: 35%;
 	z-index: 99;
@@ -35,25 +35,40 @@ a:active {color:#1fcaee;}  /* selected link */
 
 .SubmitCancel {
 	position: absolute;
-	width: 50%;
+	width: 95%;
 	height: 10%;
-	bottom: 45px;
-	right: 10px;
+	bottom: 10px;
+}
+
+#RemoteCancel {
+	float: right;
+	width: 75px;
+	height: 15px;
+}
+
+#RemoteSubmit {
+	float: right;
+	width: 75px;
+	height: 15px;
+}
+
+#RemoteURL{
+
 }
 
 #SettingsDialog {
-	width: 40%;
-	height: 50%;
-	left: 20%;
-	top: 20%;
+	width: 775px;
+	height: 575px;
+	left: 15%;
+	top: 15%;
 	position: fixed;
 	text-align: center;
 	z-index: 99;
 }
 
 .SettingsContainer {
-	border-style: inset;
-	border-size: 1;
+	/*border-style: inset;
+	border-size: 1;*/
 	padding: 2px;
 }
 
@@ -79,6 +94,43 @@ a:active {color:#1fcaee;}  /* selected link */
 	left: 5px;
 	top: 130px;
 	width: 225px;
+}
+
+#DialogTitleSettings {
+	position: absolute;
+	width: 225px;
+	top: 50px;
+	left: 240px;
+
+}
+
+#DialogFooterSettings {
+	position: absolute;
+	width: 225px;
+	top: 250px;
+	left: 240px;
+}
+
+#ButtonSettings {
+	position: absolute;
+	width: 225px;
+	top: 50px;
+	left: 475px;
+}
+
+
+#CloseButtonSettings {
+	position: absolute;
+	width: 225px;
+	left: 475px;
+	top: 300px;
+}
+
+#ModalSettings {
+	position: absolute;
+	width: 225px;
+	left: 100px;
+	top: 430px;
 }
 
 .Close {
@@ -137,9 +189,9 @@ a:active {color:#1fcaee;}  /* selected link */
 	background-color: #404040;
 }
 
-.ControlBox {
-	width: 20% !important;
-	height: 23% !important;
+#ControlBox {
+	width: 300px !important;
+	height: 150px !important;
 	position: fixed !important;
 	right: 100px !important;
 	bottom: 100px !important;
@@ -180,8 +232,6 @@ a:active {color:#1fcaee;}  /* selected link */
 }
 
 .Button:hover{
-	background-color: #056495;
-	color: white;
 	cursor: pointer;
 }
 

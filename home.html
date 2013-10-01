@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html>
     <head>
         <title>Chromesthesia</title>
@@ -47,14 +47,13 @@
             <ul class="ButtonContainer">
                 <li><input id="RemoteURL" type="text"style="width: 100%;"/><li>
             </ul>
-            <div id="RemoteFunction" class="SubmitCancel">
+            <div id="RemoteFunction" class="SubmitCancel">                
+                <div id="RemoteSubmit" class="Button">Submit</div>s
                 <div id="RemoteCancel" class="Button">Cancel</div>
-                <div class="space"></div>
-                <div id="RemoteSubmit" class="Button">Submit</div>
             </div>
         </div>
         <!-- These basic control box that contains the simple controls -->
-		<div id="ControlBox" class="ControlBox DialogBox" style="display: none;">
+		<div id="ControlBox" class="DialogBox" style="display: none;">
 			<div id="CBTitle" class="DialogTitle">Control Box</div>
 			<div id="CBControls" class="CBControls">
 				Basic App Starting Instruction
@@ -63,8 +62,8 @@
 					<td id="RecordSound" > <button class="Button">Record</button></td>
 					<td id="PlaySound" ><button class="Button">Play</button></td>
 					<td id="StopSound" ><button class="Button">Stop</button></td>
-                    <td id="Settings"><button id="testButton" class="Button">Settings</button></td>
-                    <td id="Welcome"><button id="WelcomeButton" class="Button">Load Another File</button></td>
+                    <td id="Settings"><button id="SettingsButton" class="Button">Settings</button></td>
+                    <td id="Welcome"><button id="WelcomeButton" class="Button">Load File</button></td>
 				</table>
 				<div class="space"></div>
 				<button id="SideWindow" href="#modal" class="advance-controls Button" >Advance Controls</button>
@@ -92,8 +91,53 @@
                     <li class="SettingsCell">Border Size: <input id="DialogBorderSize" type='number' style="width: 30%;"/></li>
                 </ul>
             </div>
+            <div id="DialogTitleSettings" class="SettingsContainer">
+                <div class="divTitle">Dialog Title Options</div>
+                <ul class="ButtonContainer">
+                    <li class="SettingsCell">Font Size: <input id="DialogTitleFontSize" type='number'style="width: 30%;"/></li>
+                    <li class="SettingsCell">Font Color: <input type='text' id="DialogTitleFontColor"/></li>
+                    <li class="SettingsCell">Background Color: <input type='text' id="DialogTitleBGColor"/></li>
+                    <li class="SettingsCell">Border Radius: <input id="DialogTitleBorderRadius" type='number' style="width: 30%;"/></li>
+                </ul>
+            </div>
+            <div id="DialogFooterSettings" class="SettingsContainer">
+                <div class="divTitle">Dialog Footer Options</div>
+                <ul class="ButtonContainer">
+                    <li class="SettingsCell">Font Size: <input id="DialogFooterFontSize" type='number'style="width: 30%;"/></li>
+                    <li class="SettingsCell">Font Color: <input type='text' id="DialogFooterFontColor"/></li>
+                    <li class="SettingsCell">Background Color: <input type='text' id="DialogFooterBGColor"/></li>
+                    <li class="SettingsCell">Border Radius: <input id="DialogFooterBorderRadius" type='number' style="width: 30%;"/></li>
+                </ul>
+            </div>
+            <div id="ButtonSettings" class="SettingsContainer">
+                <div class="divTitle">Button Options</div>
+                <ul class="ButtonContainer">
+                    <li class="SettingsCell">Font Size: <input id="ButtonFontSize" type='number'style="width: 30%;"/></li>
+                    <li class="SettingsCell">Font Color: <input type='text' id="ButtonFontColor"/></li>
+                    <li class="SettingsCell">Background Color: <input type='text' id="ButtonBGColor"/></li>
+                    <li class="SettingsCell">Border Radius: <input id="ButtonBorderRadius" type='number' style="width: 30%;"/></li>
+                    <li class="SettingsCell">Border Color: <input type='text' id="ButtonBorderColor"/></li>
+                    <li class="SettingsCell">Border Size: <input id="ButtonBorderSize" type='number' style="width: 30%;"/></li>
+                </ul>
+            </div>
+            <div id="CloseButtonSettings" class="SettingsContainer">
+                <div class="divTitle">Close Button Options</div>
+                <ul class="ButtonContainer">
+                    <li class="SettingsCell">Background Color: <input type='text' id="CloseButtonBGColor"/></li>
+                    <li class="SettingsCell">Border Radius: <input id="CloseButtonBorderRadius" type='number' style="width: 30%;"/></li>
+                    <li class="SettingsCell">Border Color: <input type='text' id="CloseButtonBorderColor"/></li>
+                    <li class="SettingsCell">Border Size: <input id="CloseButtonBorderSize" type='number' style="width: 30%;"/></li>
+                </ul>
+            </div>
+            <div id="ModalSettings" class="SettingsContainer">
+                <div class="divTitle">Modal Options</div>
+                <ul class="ButtonContainer">
+                    <li class="SettingsCell">Background Color: <input type='text' id="ModalBGColor"/></li>
+                    <li class="SettingsCell">Font Color: <input type='text' id="ModalFontColor"/></li>
+                </ul>
+            </div>
             <div id="SettingsFooter" class="DialogFooter">
-                Yea, footers are awesome
+                Created By: Matthew Shrider, Calvin Hamilton, Christian Evans, Lucas Ordaz
             </div>
         </div>
     </body>
