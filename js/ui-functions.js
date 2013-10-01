@@ -20,7 +20,7 @@ $("#RemoteButton").click(function(){
 
 $("#RemoteSubmit").click(function(){
 	$("#LoadRemoteDialog").hide();
-	alert($("#RemoteURL").val());
+	loadRemoteSong($("#RemoteURL").val());
 	$("#ControlBox").show();
 });
 
@@ -43,14 +43,8 @@ $("#WelcomeButton").click(function(){
     $("#WelcomeBox").toggle();
 });
 
-
 LocalSong.onchange = function(){
-   console.log(this.files);
-    /*var files = this.files;
-    var file = URL.createObjectURL(files[0]); 
-    audio_player.src = file; 
-    audio_player.play();
-    */
+   loadClientSong(URL.createObjectURL(this.files[0]));
 };
 
 //Below are funtions that handle the appearance change of the UI
