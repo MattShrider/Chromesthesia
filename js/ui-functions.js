@@ -45,10 +45,12 @@ $("#WelcomeButton").click(function(){
 
 
 LocalSong.onchange = function(){
-    var files = this.files;
+   console.log(this.files);
+    /*var files = this.files;
     var file = URL.createObjectURL(files[0]); 
     audio_player.src = file; 
     audio_player.play();
+    */
 };
 
 //Below are funtions that handle the appearance change of the UI
