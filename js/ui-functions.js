@@ -30,7 +30,8 @@ $("#RemoteCancel").click(function(){
 });
 
 $("#SampleButton").click(function(){
-	alert("Sample Song Load goes here...")
+    $("#WelcomeDialog").hide();
+	loadSampleSong();
 	$("#ControlBox").show();
 });
 
@@ -41,10 +42,20 @@ $("#SettingsButton").click(function(){
 
 $("#WelcomeButton").click(function(){
     $("#WelcomeBox").toggle();
+}); 
+
+$("#PlaySound").click(function(){
+    play();
+});
+
+$("#StopSound").click(function() {
+    stop();
 });
 
 LocalSong.onchange = function(){
    loadClientSong(URL.createObjectURL(this.files[0]));
+   $("#WelcomeBox").hide();
+   $("#ControlBox").show();
 };
 
 //Below are funtions that handle the appearance change of the UI

@@ -52,8 +52,11 @@ a:active {color:#1fcaee;}  /* selected link */
 	height: 15px;
 }
 
-#RemoteURL{
-
+#LoadingDialog {
+	left: 40%;
+	top: 40%;
+	height: 35px;
+	width: 250px;
 }
 
 #SettingsDialog {
@@ -156,8 +159,8 @@ a:active {color:#1fcaee;}  /* selected link */
 	padding: 7px;
 	color: white;
 	text-align: center;
-	min-width: 20%;
-	min-height: 20%;
+	/*min-width: 20%;
+	min-height: 20%;*/
 	background-color:#333;
 	border: solid;
 	border-size: 2px;
