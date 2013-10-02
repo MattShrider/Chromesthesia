@@ -7,11 +7,19 @@ var url;
 var songArray = new Array();
 var request;
  
+//create the audio context, there should only ever be one.
+context = new window.webkitAudioContext();
+
+/*
+ * This function should take a url (either remote or local) and read the file as an binaryarray (music)
+ * TODO - have a system for multiple requests in sequence, either stopping previous or merging into channels.
+*/
 function requestSong(url){
    request = new XMLHttpRequest();
    request.open('GET', url, true);
    request.responseType = "arraybuffer";
    
+   //When a requested file is loaded, decode it as audio and play it.  Also, create an analyser for it.
    request.onload = function() {
       context.decodeAudioData(
          request.response,
@@ -56,9 +64,9 @@ function play() {
 }
 
 function loadClientSong(file){
-
+   requestSong(file);
 }
 
 function loadRemoteSong(url){
-
+   requestSong(url);
 }
