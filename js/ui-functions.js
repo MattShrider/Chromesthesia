@@ -30,7 +30,7 @@ $("#RemoteCancel").click(function(){
 });
 
 $("#SampleButton").click(function(){
-    $("#WelcomeDialog").hide();
+    $("#WelcomeBox").hide();
 	loadSampleSong();
 	$("#ControlBox").show();
 });
