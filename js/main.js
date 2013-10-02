@@ -37,6 +37,10 @@ function requestSong(url){
                analyser.smoothingTimeConstant = 0.6;
                analyser.fftSize = 512;
    
+               if (source) {
+                  source.noteOff(0);
+               }
+
                source = context.createBufferSource();
                source.buffer = buffer;
                source.connect(analyser);
@@ -47,8 +51,11 @@ function requestSong(url){
                   songArray = new Uint8Array(analyser.frequencyBinCount);
                   analyser.getByteFrequencyData(songArray);
                };
+
                $("#LoadingDialog").hide();
-               source.noteOn(0);
+   
+               //The song has been fully loaded now
+               play();
          },
          function(error) {
                // Decoding error
@@ -56,19 +63,25 @@ function requestSong(url){
       );
    };
 
+   //call the onload function
    request.send();
 };
 
+//take the current source node and play its song
 function play() {
-   source.noteOn(0);
+   if (source)
+      source.noteOn(0);
 }
 
+//we will have to "remember" where the song was and just play the node again.
 function pause() {
-   //souce.connect();
+   source.noteOff(0);
 }
 
+//this stops a song, and destroys the node
 function stop() {
-   source.disconnect();
+   if (source)
+      source.noteOff(0);
 }
 
 function loadClientSong(file){
