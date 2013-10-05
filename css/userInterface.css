@@ -6,10 +6,6 @@ a:visited {color:#FFF;}  /* visited link */
 a:hover {color:#FFF;}  /* mouse over link */
 a:active {color:#1fcaee;}  /* selected link */
 
-#modal {
-	display: none;
-}
-
 #WelcomeBox {
 	width: 300px;
 	height: 200px;
@@ -62,7 +58,7 @@ a:active {color:#1fcaee;}  /* selected link */
 #SettingsDialog {
 	width: 775px;
 	height: 575px;
-	left: 15%;
+	left: 20%;
 	top: 15%;
 	position: fixed;
 	text-align: center;
@@ -136,6 +132,17 @@ a:active {color:#1fcaee;}  /* selected link */
 	top: 430px;
 }
 
+#modal {
+	display: none;
+}
+
+#CloseModalButton {
+	width: 50px; 
+	float: right;
+	position: absolute;
+	right: 50px;
+}
+
 .Close {
 	position: absolute;
 	height: 15px;
@@ -200,6 +207,31 @@ a:active {color:#1fcaee;}  /* selected link */
 	bottom: 100px !important;
 }
 
+.Slider {
+	-webkit-appearance: none;
+	padding-left:2px;
+	padding-right:2px;
+	-webkit-border-radius: 5px;
+	background-image: -webkit-linear-gradient(top, #000000, #333333, #000000);
+}
+
+.Slider::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	position: relative;
+	top: 0px;
+	z-index: 1;
+	width: 11px;
+	height: 11px;
+	cursor: pointer;
+	-webkit-box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.6);
+	-moz-box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.6);
+	box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.6);
+	-webkit-border-radius: 40px;
+	-moz-border-radius: 40px;
+	border-radius: 40px;
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ebf1f6), color-stop(50%,#abd3ee), color-stop(51%,#89c3eb), color-stop(100%,#d5ebfb));
+}
+
 .CBControls {
 	height: 90%;
 }
@@ -248,6 +280,7 @@ a:active {color:#1fcaee;}  /* selected link */
 }
 
 body {
+	position: fixed;
 	background-color: #474747;
 }
 

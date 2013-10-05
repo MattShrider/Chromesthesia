@@ -167,13 +167,14 @@ function setPosition(percentage) {
       position = source.buffer.duration * (percentage < 0 ? 0 : percentage > 1 ? 1 : percentage);
 
       //we still have to set the offset, incase they stop/resume
-      startOffset += position;
+      startOffset = position;
       source.start(0, startOffset);
       startTime = context.currentTime;
       console.log(context.currentTime +" -- Moved song to time: " + position);
       console.log(source);
    }
 }
+
 
 function loadClientSong(file){
    requestSong(file);
