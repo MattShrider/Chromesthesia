@@ -9,6 +9,9 @@ var songArray = new Array();
 var request;
 var startTime = 0;
 var startOffset = 0;
+var stoppedNaturally = false;
+var songAlreadyEnded = false;
+var songPercent;
  
 //create the audio context, there should only ever be one.
 window.AudioContext = window.AudioContext||window.webkitAudioContext;
@@ -88,9 +91,11 @@ function play(force) {
       source.connect(gainNode);
       gainNode.connect(context.destination);
 
-      //CURRENTLY PLAY AND RESUME ARE THE SAME, THIS MAY BE CHANGED OR RESUME REMOVED
-      source.start(0, startOffset);
+      source.start(0);
+      stoppedNaturally = true;
+      songAlreadyEnded = false;
       startTime = context.currentTime;
+      startOffset = 0;
       console.log(context.currentTime +" -- Started playing with offset: " + startOffset);
       console.log(source);
    }
@@ -107,6 +112,8 @@ function stop() {
       return;
 
    source.stop(0);
+   stoppedNaturally = false;
+   songAlreadyEnded = false;
    startOffset += context.currentTime - startTime;
    console.log(context.currentTime +" -- Stopped playing: ");
 
@@ -116,7 +123,7 @@ function stop() {
 //resume playing from a last playing offset
 function resume() {
    //do not play if it is already playing
-   if (source && source.playbackState == AudioBufferSourceNode.PLAYING_STATE && !force)
+   if (source && source.playbackState == AudioBufferSourceNode.PLAYING_STATE)
       return;
 
    if (songBuffer){
@@ -131,8 +138,9 @@ function resume() {
       source.connect(gainNode);
       gainNode.connect(context.destination);
 
-      //CURRENTLY PLAY AND RESUME ARE THE SAME, THIS MAY BE CHANGED OR RESUME REMOVED
       source.start(0, startOffset);
+      stoppedNaturally = true;
+      songAlreadyEnded = false;
       startTime = context.currentTime;
       console.log(context.currentTime +" -- Started playing with offset: " + startOffset);
       console.log(source);
@@ -169,10 +177,45 @@ function setPosition(percentage) {
       //we still have to set the offset, incase they stop/resume
       startOffset = position;
       source.start(0, startOffset);
+      stoppedNaturally = true;
+      songAlreadyEnded = false;
       startTime = context.currentTime;
       console.log(context.currentTime +" -- Moved song to time: " + position);
       console.log(source);
    }
+}
+
+//Returns the current position of the song (as a percentage 0.0-1.0)  This function is called once
+//every second, which can be used to set the position slider.
+function positionCallback() {
+
+   if (source && source.playbackState == AudioBufferSourceNode.PLAYING_STATE){
+      songPercent = (context.currentTime - startTime + startOffset) / source.buffer.duration;
+   }
+   else if (source && source.playbackState != AudioBufferSourceNode.PLAYING_STATE){
+      if (stoppedNaturally){
+         songPercent = 0.0;
+         if (!songAlreadyEnded) songEnded();
+      }
+      else {
+         songPercent = startOffset / source.buffer.duration;
+      }
+   }
+   else 
+      songPercent = 0;
+
+   console.log(context.currentTime + " -- Time Callback: " + songPercent);
+   return songPercent;
+}
+setInterval(positionCallback, 1000);
+
+//Function which is called at the end of a song.
+function songEnded(){
+   songAlreadyEnded = true;
+   startOffset = 0;
+
+   console.log(context.currentTime + " -- Song has ended.");
+
 }
 
 
