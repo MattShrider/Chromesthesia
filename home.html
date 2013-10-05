@@ -23,8 +23,10 @@
 		<div id="modal">
             <h2>Advance Control Panel</h2>
             <p>Various Controls Here</p>
-            <p id="CloseButton" class="Button"><a href="javascript:$.pageslide.close()">Close</a></p>
-			
+            <table id="ButtonContainer">
+                <td id="Settings"><button id="SettingsButton" class="Button">Settings</button></td>
+            </table>
+            <Button id="CloseModalButton" class="Button" onClick="javascript:$.pageslide.close()">Close</Button>
         </div>
         <!-- The Welcome Dialog box that promptsthe user for the initial sound -->
         <div id="WelcomeBox" class="DialogBox" >
@@ -37,8 +39,7 @@
                 <li class="ButtonList"><button id="RemoteButton" class="Button" title="Load Remote song through URL">Load Remote</button></li>
                 <li class="ButtonList"><button id="SampleButton" class="Button" title="Load Sample song">Load Sample</button></li>
             </ul>
-            <input id="LocalSong" type="file" accept="audio/*"style="display: none;" />
-            <audio id="audio_player" />
+            <input id="LocalSong" type="file" accept="audio/*"style="display: none;" src="audio/sample.mp3"/>
         </div>
         <div id="LoadRemoteDialog" class="DialogBox" style="display: none;">
             <div class="DialogTitle">Enter Remote Address for Song</div>
@@ -55,19 +56,25 @@
 		<div id="ControlBox" class="DialogBox" style="display: none;">
 			<div id="CBTitle" class="DialogTitle">Control Box</div>
 			<div id="CBControls" class="CBControls">
-				Basic App Starting Instruction
+				<!--Basic App Starting Instruction-->
 				<div class="space"></div>
 				<table id="ButtonContainer" align="center">
-					<td id="RecordSound" > <button class="Button">Record</button></td>
-					<td id="PlaySound" ><button class="Button">Play</button></td>
-					<td id="StopSound" ><button class="Button">Stop</button></td>
-                    <td id="Settings"><button id="SettingsButton" class="Button">Settings</button></td>
+					<!--<td id="RecordSound" > <button class="Button">Record</button></td>-->
+					<td id="PlaySound" ><button class="Button" Title="Play Song from the beginning">Play</button></td>
+                    <td id="ResumeSound"><button class="Button" Title="Play Song from the set position">Resume</button></td>
+					<td id="StopSound" ><button class="Button" Title="Stop the song">Stop</button></td>
                     <td id="Welcome"><button id="WelcomeButton" class="Button">Load File</button></td>
 				</table>
 				<div class="space"></div>
+                Volume: <input type="range" id="SongVolume" class="Slider" min="0" max="200" value="30">
+                <br/>
+                Position: <input type="range" id="SongPosition" class="Slider" min="0" max="1" step=".001" value="0">
 				<button id="SideWindow" href="#modal" class="advance-controls Button" >Advance Controls</button>
 			</div>
 		</div>
+        <div id="LoadingDialog" class="DialogBox" style="display: none;">
+            <div class="DialogTitle">Loading Song</div>
+        </div>
         <div id="SettingsDialog" class="DialogBox" style="display:none;">
             <div id="SettingsTitle" class="DialogTitle">Settings</div>
             <button class="Button Close" Title="Close Window"></button>

@@ -3,6 +3,7 @@ $(".DialogBox").draggable();
 
 /* Slide to the left, and make it model (you'll have to call $.pageslide.close() to close) */
 $(".advance-controls").pageslide({ direction: "right", modal: true });
+
 $(".Close").click(function(){
 	$(this).parent().hide();
 	$("#ControlBox").show();
@@ -30,7 +31,8 @@ $("#RemoteCancel").click(function(){
 });
 
 $("#SampleButton").click(function(){
-	alert("Sample Song Load goes here...")
+    $("#WelcomeBox").hide();
+	loadSampleSong();
 	$("#ControlBox").show();
 });
 
@@ -41,10 +43,32 @@ $("#SettingsButton").click(function(){
 
 $("#WelcomeButton").click(function(){
     $("#WelcomeBox").toggle();
+}); 
+
+$("#PlaySound").click(function(){
+    play();
+});
+
+$("#StopSound").click(function(){
+    stop();
+});
+
+$("#ResumeSound").click(function(){
+    resume();
 });
 
 LocalSong.onchange = function(){
    loadClientSong(URL.createObjectURL(this.files[0]));
+   $("#WelcomeBox").hide();
+   $("#ControlBox").show();
+};
+
+SongPosition.onchange = function(){
+    setPosition(this.value);
+};
+
+SongVolume.onchange = function() {
+    setVolume(this.value/100);
 };
 
 //Below are funtions that handle the appearance change of the UI
