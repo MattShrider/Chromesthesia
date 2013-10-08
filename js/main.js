@@ -206,7 +206,9 @@ function positionCallback() {
    console.log(context.currentTime + " -- Time Callback: " + songPercent);
    return songPercent;
 }
-setInterval(positionCallback, 1000);
+setInterval(function(){
+ SongPosition.value = positionCallback(); 
+}, 1000);
 
 //Function which is called at the end of a song.
 function songEnded(){
