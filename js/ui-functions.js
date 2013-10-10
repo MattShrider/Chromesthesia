@@ -1,3 +1,6 @@
+var songQueue = [];
+var currentSong = 0;
+
 //Makes Dialog Boxes Draggable
 $(".DialogBox").draggable();
 
@@ -58,7 +61,12 @@ $("#ResumeSound").click(function(){
 });
 
 LocalSong.onchange = function(){
-   loadClientSong(URL.createObjectURL(this.files[0]));
+   addSong(this.files[0]);
+   if (songQueue.length - 1 == 0){
+        loadClientSong(URL.createObjectURL(this.files[0])); 
+        updateCurrentSong(currentSong);
+   }
+   
    $("#WelcomeBox").hide();
    $("#ControlBox").show();
 };
@@ -563,4 +571,17 @@ function updateBorderSize(element, size){
 }
 function updateBorderRadius(element, size){
 	$(element).css("border-radius", size  );   	
+}
+
+function addSong(file){
+   songQueue.push(URL.createObjectURL(file));
+   songName = file.name;
+   songLocation = songQueue.length - 1;
+   $("#modal #SongQueue #SongList").append("<div class='space'></div><div id='Song" + songLocation+ "' class='Song' onclick='loadClientSong(songQueue["+songLocation+"]);updateCurrentSong(" + songLocation + ");' title='Play " + songName + "'>" + songName +" </div>");
+}
+
+function updateCurrentSong(queueNumber){
+    $("#modal #SongQueue #SongList #Song"+currentSong).removeClass("Playing");
+    currentSong = queueNumber;
+    $("#modal  #SongQueue #SongList #Song"+queueNumber).addClass("Playing");
 }

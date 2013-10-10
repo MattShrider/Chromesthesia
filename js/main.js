@@ -217,7 +217,15 @@ function songEnded(){
    startOffset = 0;
 
    console.log(context.currentTime + " -- Song has ended.");
-
+   if (currentSong < (songQueue.length - 1)){
+      console.log(currentSong);
+      updateCurrentSong(currentSong + 1);
+      console.log(currentSong);
+      loadClientSong(songQueue[currentSong]);
+   }
+   else{
+      $("#modal #SongQueue #"+currentSong).removeClass("Playing");
+   }
 }
 
 

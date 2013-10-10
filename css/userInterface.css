@@ -74,6 +74,7 @@ a:active {color:#1fcaee;}  /* selected link */
 .SettingsCell {
 	padding-bottom: 5px;
 }
+
 .divTitle {
 	text-align: center;
 	font-size: 1.1em;
@@ -140,7 +141,8 @@ a:active {color:#1fcaee;}  /* selected link */
 	width: 50px; 
 	float: right;
 	position: absolute;
-	right: 50px;
+	right: 25px;
+	bottom: 10px;
 }
 
 .Close {
@@ -279,6 +281,36 @@ a:active {color:#1fcaee;}  /* selected link */
 	padding: 3px;
 }
 
+#SongQueue {
+	width: 97%;
+	right: 50px;
+}
+
+#SongList {
+	overflow-y: auto;
+	height: 300px;
+}
+
+.Song {
+	position: abosolute;
+	border-style: solid;
+	border-width: 2px;
+	border-color:silver;
+	width: 97%px;
+	padding: 10px;
+	font-family: "Lucida Console";
+}
+
+.Song:hover {
+	background-color: white;
+	color:black;
+	cursor: pointer;
+}
+
+.Playing {
+	background-color: green;
+}
+
 body {
 	position: fixed;
 	background-color: #474747;
@@ -286,7 +318,7 @@ body {
 
 canvas {
 	width: 99% !important;
-	height: 99% !important;
+	height: 100% !important;
 	position: fixed;
 	z-index: -1000;
 }
