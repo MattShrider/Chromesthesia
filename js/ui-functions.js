@@ -60,6 +60,32 @@ $("#ResumeSound").click(function(){
     resume();
 });
 
+$("#NextSong").click(function(){
+    if (songQueue.length >= 2) {
+        if (currentSong == songQueue.length - 1) {
+            updateCurrentSong(0);
+            loadClientSong(songQueue[0]);
+        }
+        else{
+            updateCurrentSong(currentSong+1);
+            loadClientSong(songQueue[currentSong]);
+        }
+    }
+});
+
+$("#PreviousSong").click(function(){
+    if (songQueue.length >= 2) {
+        if (currentSong == 0) {
+            updateCurrentSong(songQueue.length - 1);
+            loadClientSong(songQueue[songQueue.length - 1]);
+        }
+        else{
+            updateCurrentSong(currentSong-1);
+            loadClientSong(songQueue[currentSong]);
+        }
+    }
+});
+
 LocalSong.onchange = function(){
    addSong(this.files[0]);
    if (songQueue.length - 1 == 0){

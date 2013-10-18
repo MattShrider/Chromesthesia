@@ -64,10 +64,18 @@
 				<div class="space"></div>
 				<table id="ButtonContainer" align="center">
 					<!--<td id="RecordSound" > <button class="Button">Record</button></td>-->
-					<td id="PlaySound" ><button class="Button" Title="Play Song from the beginning">Play</button></td>
-                    <td id="ResumeSound"><button class="Button" Title="Play Song from the set position">Resume</button></td>
-					<td id="StopSound" ><button class="Button" Title="Stop the song">Stop</button></td>
-                    <td id="Welcome"><button id="WelcomeButton" class="Button">Load File</button></td>
+                    <tr>
+    					<td id="PlaySound" ><button class="Button" Title="Play Song from the beginning">Play</button></td>
+                        <td id="ResumeSound"><button class="Button" Title="Play Song from the set position">Resume</button></td>
+    					<td id="StopSound" ><button class="Button" Title="Stop the song">Stop</button></td>
+                        <td id="Welcome"><button id="WelcomeButton" class="Button">Load File</button></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td id="PreviousSong"><button class="Button" Title="Play Previous Song">Previous</button></td>
+                        <td><button id="NextSong" class="Button" Title="Play Next Song">Next</button></td>
+                        <td></td>
+                    </tr>
 				</table>
 				<div class="space"></div>
                 Volume: <input type="range" id="SongVolume" class="Slider" min="0" max="200" value="30">
