@@ -1,4 +1,4 @@
-WebGL-Music
+Chromesthesia
 ===========
 **A Web-Application for Sound Visualization using WebGL**
 
@@ -16,5 +16,3 @@ are played, a 3D Scene will attempt to visualize the sound, based on Loudness an
 Additionally, users will be able to customize their user interface to an extent, and even modify the music by
 changing pitch, adding reverb, or other common elements.  Additional music tracks could be added and mixed with
 what is currently running.
-
-Finally, your music track will be saved, and potentially uploaded to your youtube/soundcloud account.
