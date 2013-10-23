@@ -1,4 +1,4 @@
-WebGL-Music
+Chromesthesia
 ===========
 **A Web-Application for Sound Visualization using WebGL**
 
@@ -17,4 +17,3 @@ Additionally, users will be able to customize their user interface to an extent,
 changing pitch, adding reverb, or other common elements.  Additional music tracks could be added and mixed with
 what is currently running.
 
-Finally, your music track will be saved, and potentially uploaded to your youtube/soundcloud account.
