@@ -87,11 +87,14 @@ $("#PreviousSong").click(function(){
 });
 
 LocalSong.onchange = function(){
-   addSong(this.files[0]);
-   if (songQueue.length - 1 == 0){
-        loadClientSong(URL.createObjectURL(this.files[0])); 
-        updateCurrentSong(currentSong);
-   }
+    for(var i = 0; i < this.files.length; i++){
+        addSong(this.files[i]);
+        if (songQueue.length - 1 == 0){
+            loadClientSong(URL.createObjectURL(this.files[i])); 
+            updateCurrentSong(currentSong);
+        }    
+    }
+   
    
    $("#WelcomeBox").hide();
    $("#ControlBox").show();
