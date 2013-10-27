@@ -1,76 +1,105 @@
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(60,window.innerWidth / window.innerHeight, 1, 1000);
-var renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
+var renderer, scene, camera, stats;
 
-window.addEventListener( 'resize', onWindowResize, false);
+		var sphere, uniforms, attributes;
+
+		var noise = [];
+
+		var WIDTH = window.innerWidth,
+			HEIGHT = window.innerHeight;
+
+		init();
+		animate();
+
+		function init() {
+
+			camera = new THREE.PerspectiveCamera( 30, WIDTH / HEIGHT, 1, 10000 );
+			camera.position.z = 300;
+
+			scene = new THREE.Scene();
+
+			attributes = {
+
+				displacement: {	type: 'f', value: [] }
+
+			};
+
+			uniforms = {
+
+				amplitude: { type: "f", value: 1.0 },
+				color:     { type: "c", value: new THREE.Color( 0xff2200 ) },
+				texture:   { type: "t", value: THREE.ImageUtils.loadTexture( "textures/water.jpg" ) },
+
+			};
+
+			uniforms.texture.value.wrapS = uniforms.texture.value.wrapT = THREE.RepeatWrapping;
+
+			var shaderMaterial = new THREE.ShaderMaterial( {
+
+				uniforms: 		uniforms,
+				attributes:     attributes,
+				vertexShader:   document.getElementById( 'vertexshader' ).textContent,
+				fragmentShader: document.getElementById( 'fragmentshader' ).textContent
+
+			});
 
 
-document.body.appendChild(renderer.domElement);
+			var radius = 50, segments = 128, rings = 64;
+			var geometry = new THREE.SphereGeometry( radius, segments, rings );
+			geometry.dynamic = true;
 
-var sphere, uniforms, attributes, stats;
-attributes = {
-	displacement: {	type: 'f', value: [] }
-};
-var noise = [];
-var WIDTH = window.innerWidth,
-	HEIGHT = window.innerHeight;
+			sphere = new THREE.Mesh( geometry, shaderMaterial );
 
-init();
-animate();
-function init(){
-uniforms = {
-	amplitude: { type: "f", value: 1.0 },
-	color:     { type: "c", value: new THREE.Color( 0xff2200 ) },
-	texture:   { type: "t", value: THREE.ImageUtils.loadTexture( "textures/water.jpg" ) },
-};
-uniforms.texture.value.wrapS = uniforms.texture.value.wrapT = THREE.RepeatWrapping;
-var shaderMaterial = new THREE.ShaderMaterial( {
-	uniforms: 		uniforms,
-	attributes:     attributes,
-	vertexShader:   document.getElementById( 'vertexshader' ).textContent,
-	fragmentShader: document.getElementById( 'fragmentshader' ).textContent
-});
-var radius = 50, segments = 128, rings = 64;
-var geometry = new THREE.SphereGeometry( radius, segments, rings );
-geometry.dynamic = true;
+			var vertices = sphere.geometry.vertices;
+			var values = attributes.displacement.value;
 
-sphere = new THREE.Mesh( geometry, shaderMaterial );
+			for ( var v = 0; v < vertices.length; v++ ) {
 
-var vertices = sphere.geometry.vertices;
-var values = attributes.displacement.value;
+				values[ v ] = 0;
+				noise[ v ] = Math.random() * 5;
 
-for ( var v = 0; v < vertices.length; v++ ) {
-	values[ v ] = 0;
-	noise[ v ] = Math.random() * 5;
-}
-scene.add( sphere );
-renderer = new THREE.WebGLRenderer( { alpha: false } );
-renderer.setClearColor( 0x050505, 1 );
-renderer.setSize( WIDTH, HEIGHT );
+			}
 
-var container = document.getElementById( 'container' );
-container.appendChild( renderer.domElement );
+			scene.add( sphere );
 
-stats = new Stats();
-stats.domElement.style.position = 'absolute';
-stats.domElement.style.top = '0px';
-container.appendChild( stats.domElement );
-window.addEventListener( 'resize', onWindowResize, false );
+			renderer = new THREE.WebGLRenderer( { alpha: false } );
+			renderer.setClearColor( 0x050505, 1 );
+			renderer.setSize( WIDTH, HEIGHT );
 
-scene.add(camera);
+			var container = document.getElementById( 'container' );
+			container.appendChild( renderer.domElement );
 
-camera.position.z = 80;
-}
+			stats = new Stats();
+			stats.domElement.style.position = 'absolute';
+			stats.domElement.style.top = '0px';
+			container.appendChild( stats.domElement );
 
-function animate(){
-	requestAnimationFrame( animate );
-	render();
-	stats.update();
-}
+			//
 
-function render() {
-	var time = Date.now() * 0.01;
+			window.addEventListener( 'resize', onWindowResize, false );
+
+		}
+
+		function onWindowResize() {
+
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+
+			renderer.setSize( window.innerWidth, window.innerHeight );
+
+		}
+
+		function animate() {
+
+			requestAnimationFrame( animate );
+
+			render();
+			stats.update();
+
+		}
+
+		function render() {
+
+			var time = Date.now() * 0.01;
 
 			sphere.rotation.y = sphere.rotation.z = 0.01 * time;
 
@@ -90,20 +119,6 @@ function render() {
 
 			attributes.displacement.needsUpdate = true;
 
-			renderer.render( scene, camera );			
+			renderer.render( scene, camera );
 
-};
-
-function onWindowResize() {
-	camera.aspect = window.innerWidth / window.innerHeight;
-	camera.updateProjectionMatrix();
-	renderer.setSize( window.innerWidth, window.innerHeight );
-	animate();
-}
-
-function changedControls(){
-   renderer.render(scene, camera);
-   console.log(camera);
-}
-
-animate();
+		}
