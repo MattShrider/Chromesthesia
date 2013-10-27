@@ -14,10 +14,7 @@ var sphere, uniforms, attributes;
 var noise = [];
 
 var WIDTH = window.innerWidth,
-	HEIGHT = window.innerHeight;
-
-init();
-animate();
+HEIGHT = window.innerHeight;
 
 function init() {
 
@@ -89,6 +86,7 @@ function onWindowResize() {
 	camera.updateProjectionMatrix();
 
 	renderer.setSize( window.innerWidth, window.innerHeight );
+	renderer.render( scene, camera );
 
 }
 
@@ -124,4 +122,5 @@ function render() {
 	renderer.render( scene, camera );			
 
 }
+init();
 animate();
