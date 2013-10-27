@@ -8,11 +8,17 @@ window.addEventListener( 'resize', onWindowResize, false);
 
 document.body.appendChild(renderer.domElement);
 
-var sphere, uniforms, attributes;
+var sphere, uniforms, attributes, stats;
 attributes = {
 	displacement: {	type: 'f', value: [] }
 };
 var noise = [];
+var WIDTH = window.innerWidth,
+	HEIGHT = window.innerHeight;
+
+init();
+animate();
+function init(){
 uniforms = {
 	amplitude: { type: "f", value: 1.0 },
 	color:     { type: "c", value: new THREE.Color( 0xff2200 ) },
@@ -55,6 +61,7 @@ window.addEventListener( 'resize', onWindowResize, false );
 scene.add(camera);
 
 camera.position.z = 80;
+}
 
 function animate(){
 	requestAnimationFrame( animate );
