@@ -65,25 +65,27 @@ function animate(){
 function render() {
 	var time = Date.now() * 0.01;
 
-	sphere.rotation.y = sphere.rotation.z = 0.01 * time;
+			sphere.rotation.y = sphere.rotation.z = 0.01 * time;
 
-	uniforms.amplitude.value = 2.5 * Math.sin( sphere.rotation.y * 0.125 );
-	uniforms.color.value.offsetHSL( 0.0005, 0, 0 );
-	
-	if(typeof songArray === 'object' && songArray.length > 0) {
-		for (var x=0; x < songArray.length; x++){
-			var scale = songArray[x] / 30;
-			noise[x] += scale;
-			attributes.displacement.value[x] += noise[x];
-		}
-		
-	}
+			uniforms.amplitude.value = 2.5 * Math.sin( sphere.rotation.y * 0.125 );
+			uniforms.color.value.offsetHSL( 0.0005, 0, 0 );
 
-	attributes.displacement.needsUpdate = true;
+			for ( var i = 0; i < attributes.displacement.value.length; i ++ ) {
 
-	renderer.render( scene, camera );			
+				attributes.displacement.value[ i ] = Math.sin( 0.1 * i + time );
 
-}
+				noise[ i ] += 0.5 * ( 0.5 - Math.random() );
+				noise[ i ] = THREE.Math.clamp( noise[ i ], -5, 5 );
+
+				attributes.displacement.value[ i ] += noise[ i ];
+
+			}
+
+			attributes.displacement.needsUpdate = true;
+
+			renderer.render( scene, camera );			
+
+};
 
 function onWindowResize() {
 	camera.aspect = window.innerWidth / window.innerHeight;
