@@ -24,7 +24,7 @@ $("#RemoteButton").click(function(){
 
 $("#RemoteSubmit").click(function(){
 	$("#LoadRemoteDialog").hide();
-	loadRemoteSong($("#RemoteURL").val());
+	loadClientSong($("#RemoteURL").val());
 	$("#ControlBox").show();
 });
 
@@ -61,29 +61,11 @@ $("#ResumeSound").click(function(){
 });
 
 $("#NextSong").click(function(){
-    if (songQueue.length >= 2) {
-        if (currentSong == songQueue.length - 1) {
-            updateCurrentSong(0);
-            loadClientSong(songQueue[0]);
-        }
-        else{
-            updateCurrentSong(currentSong+1);
-            loadClientSong(songQueue[currentSong]);
-        }
-    }
+   nextSong();
 });
 
 $("#PreviousSong").click(function(){
-    if (songQueue.length >= 2) {
-        if (currentSong == 0) {
-            updateCurrentSong(songQueue.length - 1);
-            loadClientSong(songQueue[songQueue.length - 1]);
-        }
-        else{
-            updateCurrentSong(currentSong-1);
-            loadClientSong(songQueue[currentSong]);
-        }
-    }
+   lastSong();
 });
 
 LocalSong.onchange = function(){

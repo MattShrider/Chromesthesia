@@ -9,7 +9,14 @@ var startOffset = 0;
 var stoppedNaturally = false;
 var songAlreadyEnded = false;
 var songPercent;
- 
+var nextLoaded = lastLoaded = false;
+
+//Overload the modulo function to work with negative numbers (like it should)
+Number.prototype.mod = function(n) {
+   return ((this%n)+n)%n;
+}
+
+
 //create the audio context, there should only ever be one.
 window.AudioContext = window.AudioContext||window.webkitAudioContext;
 context = new AudioContext();
@@ -17,17 +24,21 @@ context = new AudioContext();
 var songs = { last: { source: null,
                       buffer: null,
                       gain: context.createGain(),
+                      name: "Last",
                       index: 0},
                now: { source: null,
                       buffer: null,
                       gain: context.createGain(),
+                      name: "Now",
                       index: 0},
               next: { source: null,
                       buffer: null,
                       gain: context.createGain(),
+                      name: "Next",
                       index: 0},
                mic: { source: null,
                       gain: context.createGain(),
+                      name: "Mic",
                       enabled: false}};
 
 var volume = context.createGain();
@@ -56,6 +67,8 @@ songs.last.gain.connect(analyser);
 songs.next.gain.connect(analyser);
 songs.now.gain.connect(analyser);
 
+setVolume(.3);
+
 console.log(songs);
 
 /*
@@ -78,6 +91,11 @@ navigator.webkitGetUserMedia({audio: true}, function(stream) {
  * TODO - have a system for multiple requests in sequence, either stopping previous or merging into channels.
 */
 function requestSong(url, songObject){
+   if (songObject.name == songs.next.name)
+      nextLoaded = false;
+   if (songObject.name == songs.last.name)
+      lastLoaded = false;
+
    request = new XMLHttpRequest();
    request.open('GET', url, true);
    request.responseType = "arraybuffer";
@@ -88,19 +106,47 @@ function requestSong(url, songObject){
       context.decodeAudioData(
          request.response,
          function(buffer) {
-               
-               if(!buffer) {
-                  return;
+            
+            if(!buffer) {
+               return;
+            }
+
+            console.log(context.currentTime + " -- Loaded buffer into " + songObject.name);
+            songObject.buffer = buffer;
+
+            if (songObject.name == songs.next.name){
+               nextLoaded = true;
+            }
+            if (songObject.name == songs.last.name){
+               lastLoaded = true;
+               if (songQueue.length == 2){
+                  songs.next.buffer = songs.last.buffer;
+                  nextLoaded = true;
+               }
+            }
+
+            //if we are directly loading to the current song, we must also load in the next and last
+            if (songObject.name == songs.now.name){
+               console.log(context.currentTime + " -- reloading current song");
+               stop();
+
+               if (songQueue.length > 2){
+                  requestSong(songQueue[(currentSong - 1).mod(songQueue.length)], songs.last);
+                  requestSong(songQueue[(currentSong + 1).mod(songQueue.length)], songs.next);
+               }
+               if (songQueue.length == 2){
+                  requestSong(songQueue[1],songs.last);
+               }
+               if (songQueue.length == 1){
+                  songs.last.buffer = songs.next.buffer = songs.now.buffer;
+                  nextLoaded = lastLoaded = true;
                }
 
-               songObject.buffer = buffer;
-
-               $("#LoadingDialog").hide();
-
-               startTime = 0;
-               startOffset = 0;
-               setVolume(.3);
                play(true);
+            }
+
+            $("#LoadingDialog").hide();
+
          },
          function(error) {
          }
@@ -112,9 +158,12 @@ function requestSong(url, songObject){
 };
 
 //take the current source node and play its song
-function play(force) {
+function play(force, delay) {
+
+   delay = typeof delay !== 'undefined' ? delay : 0;
+
    //do not play if it is already playing
-   if (songs.now.source && songs.now.source.playbackState == AudioBufferSource.PLAYING_STATE && !force)
+   if (songs.now.source && songs.now.source.playbackState == AudioBufferSourceNode.PLAYING_STATE && !force)
       return;
 
    if (songs.now.buffer){
@@ -123,12 +172,13 @@ function play(force) {
 
       songs.now.source.connect(songs.now.gain);
 
-      songs.now.source.start(0);
+      songs.now.source.start(context.currentTime + delay)
+      startTime = context.currentTime + delay;
+
       stoppedNaturally = true;
       songAlreadyEnded = false;
-      startTime = context.currentTime;
       startOffset = 0;
-      console.log(context.currentTime +" -- Started playing with offset: " + startOffset);
+      console.log(context.currentTime +" -- Started playing with offset: " + startOffset + " and delay: " + delay);
       console.log(songs.now.source);
    }
 }
@@ -138,6 +188,8 @@ function stop() {
    //no source to stop
    if (!songs.now.source)
       return;
+
+   songs.now.source.disconnect(songs.now.gain);
 
    //do not stop if already stopped
    if (!(songs.now.source.playbackState == AudioBufferSourceNode.PLAYING_STATE))
@@ -211,7 +263,7 @@ function setPosition(percentage) {
 function positionCallback() {
 
    if (songs.now.source && songs.now.source.playbackState == AudioBufferSourceNode.PLAYING_STATE){
-      songPercent = (context.currentTime - startTime + startOffset) / songs.now.buffer.duration;
+      songPercent = (context.currentTime - startTime + startOffset) / songs.now.source.buffer.duration;
    }
    else if (songs.now.source && songs.now.source.playbackState != AudioBufferSourceNode.PLAYING_STATE){
       if (stoppedNaturally){
@@ -219,7 +271,7 @@ function positionCallback() {
          if (!songAlreadyEnded) songEnded();
       }
       else {
-         songPercent = startOffset / songs.now.buffer.duration;
+         songPercent = startOffset / songs.now.source.buffer.duration;
       }
    }
    else 
@@ -238,24 +290,58 @@ function songEnded(){
    startOffset = 0;
 
    console.log(context.currentTime + " -- Song has ended.");
-   if (currentSong < (songQueue.length - 1)){
-      console.log(currentSong);
-      updateCurrentSong(currentSong + 1);
-      console.log(currentSong);
-      loadClientSong(songQueue[currentSong]);
-   }
-   else{
-      $("#modal #SongQueue #"+currentSong).removeClass("Playing");
-   }
+   nextSong();
 }
 
+function nextSong(){
+   if (!nextLoaded || !lastLoaded)
+      return;
+
+
+   stoppedNaturally = false;
+
+   nextLoaded = false;
+   lastLoaded = true;
+
+   console.log(context.currentTime + " -- Changing to next song");
+   stop();
+
+   songs.last.buffer = songs.now.buffer;
+   songs.now.buffer = songs.next.buffer;
+
+   updateCurrentSong((currentSong + 1).mod(songQueue.length));
+   play(true, .3);
+
+   requestSong(songQueue[(currentSong + 1).mod(songQueue.length)], songs.next);
+}
+
+function lastSong(){
+   if (!lastLoaded || !nextLoaded)
+      return;
+
+   stoppedNaturally = false;
+   lastLoaded = false;
+   nextLoaded = true;
+
+   console.log(context.currentTime + " -- Changing to last song");
+   stop();
+
+   songs.next.buffer = songs.now.buffer;
+   songs.now.buffer = songs.last.buffer;
+
+   updateCurrentSong((currentSong - 1).mod(songQueue.length));
+   play(true, .3);
+
+   requestSong(songQueue[(currentSong - 1).mod(songQueue.length)], songs.last);
+
+}
 
 function loadClientSong(file){
+   nextLoaded = false;
+   lastLoaded = false;
    requestSong(file, songs.now);
-}
-
-function loadRemoteSong(url){
-   requestSong(url, songs.now);
+   console.log(context.currentTime + " -- SongTree:")
+   console.log(songs);
 }
 
 function loadSampleSong(){
