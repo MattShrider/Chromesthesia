@@ -178,8 +178,6 @@ function stop() {
    if (!songs.now.source)
       return;
 
-   songs.now.source.disconnect(songs.now.gain);
-
    //do not stop if already stopped
    if (!(songs.now.source.playbackState == AudioBufferSourceNode.PLAYING_STATE))
       return;
