@@ -24,7 +24,7 @@ $("#RemoteButton").click(function(){
 
 $("#RemoteSubmit").click(function(){
 	$("#LoadRemoteDialog").hide();
-	loadClientSong($("#RemoteURL").val());
+	/*loadClientSong($("#RemoteURL").val());*/
 	$("#ControlBox").show();
 });
 
@@ -71,10 +71,12 @@ $("#PreviousSong").click(function(){
 LocalSong.onchange = function(){
     for(var i = 0; i < this.files.length; i++){
         addSong(this.files[i]);
+        /*
         if (songQueue.length - 1 == 0){
             loadClientSong(URL.createObjectURL(this.files[i])); 
             updateCurrentSong(currentSong);
         }    
+        */
     }
    
    
@@ -588,7 +590,7 @@ function addSong(file){
    songQueue.push(URL.createObjectURL(file));
    songName = file.name;
    songLocation = songQueue.length - 1;
-   $("#modal #SongQueue #SongList").append("<div class='space'></div><div id='Song" + songLocation+ "' class='Song' onclick='loadClientSong(songQueue["+songLocation+"]);updateCurrentSong(" + songLocation + ");' title='Play " + songName + "'>" + songName +" </div>");
+   $("#modal #SongQueue #SongList").append("<div class='space'></div><div id='Song" + songLocation+ "' class='Song' onclick='changeToSong("+songLocation+");updateCurrentSong(" + songLocation + ");' title='Play " + songName + "'>" + songName +" </div>");
 }
 
 function updateCurrentSong(queueNumber){

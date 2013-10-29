@@ -10,6 +10,11 @@ var stoppedNaturally = false;
 var songAlreadyEnded = false;
 var songPercent;
 var nextLoaded = lastLoaded = false;
+var bufferQueue = new Array();
+var loadingBuffersUpTo = -1;
+var songHistory = new Array();
+var bufferIndex = -1;
+var previousSongLoaded = true;
 
 //Overload the modulo function to work with negative numbers (like it should)
 Number.prototype.mod = function(n) {
@@ -90,11 +95,15 @@ navigator.webkitGetUserMedia({audio: true}, function(stream) {
  * This function should take a url (either remote or local) and read the file as an binaryarray (music)
  * TODO - have a system for multiple requests in sequence, either stopping previous or merging into channels.
 */
-function requestSong(url, songObject){
-   if (songObject.name == songs.next.name)
-      nextLoaded = false;
-   if (songObject.name == songs.last.name)
-      lastLoaded = false;
+function requestSong(url, index){
+   if (index <= loadingBuffersUpTo)
+      return;
+   if (!previousSongLoaded)
+      return;
+   previousSongLoaded = false;
+
+   console.log("New request for index: " + index);
+   loadingBuffersUpTo = index;
 
    request = new XMLHttpRequest();
    request.open('GET', url, true);
@@ -111,41 +120,15 @@ function requestSong(url, songObject){
                return;
             }
 
-            console.log(context.currentTime + " -- Loaded buffer into " + songObject.name);
-            songObject.buffer = buffer;
-
-            if (songObject.name == songs.next.name){
-               nextLoaded = true;
-            }
-            if (songObject.name == songs.last.name){
-               lastLoaded = true;
-               if (songQueue.length == 2){
-                  songs.next.buffer = songs.last.buffer;
-                  nextLoaded = true;
-               }
-            }
-
-            //if we are directly loading to the current song, we must also load in the next and last
-            if (songObject.name == songs.now.name){
-               console.log(context.currentTime + " -- reloading current song");
-               stop();
-
-               if (songQueue.length > 2){
-                  requestSong(songQueue[(currentSong - 1).mod(songQueue.length)], songs.last);
-                  requestSong(songQueue[(currentSong + 1).mod(songQueue.length)], songs.next);
-               }
-               if (songQueue.length == 2){
-                  requestSong(songQueue[1],songs.last);
-               }
-               if (songQueue.length == 1){
-                  songs.last.buffer = songs.next.buffer = songs.now.buffer;
-                  nextLoaded = lastLoaded = true;
-               }
-
+            bufferQueue.push(buffer);
+            if (index == 0) {
+               songs.now.buffer = buffer;
                play(true);
+               updateCurrentSong(0);
             }
 
             $("#LoadingDialog").hide();
+            previousSongLoaded = true;
 
          },
          function(error) {
@@ -159,6 +142,10 @@ function requestSong(url, songObject){
 
 //take the current source node and play its song
 function play(force, delay) {
+
+   if (currentSong != songHistory[songHistory.length - 1])
+      songHistory.push(currentSong);
+   console.log(songHistory);
 
    delay = typeof delay !== 'undefined' ? delay : 0;
 
@@ -278,6 +265,9 @@ function positionCallback() {
       songPercent = 0;
 
    console.log(context.currentTime + " -- Time Callback: " + songPercent);
+
+
+   loadNewSongs();
    return songPercent;
 }
 setInterval(function(){
@@ -294,6 +284,11 @@ function songEnded(){
 }
 
 function nextSong(){
+
+   changeToSong((currentSong + 1).mod(songQueue.length));
+   return;
+
+
    if (!nextLoaded || !lastLoaded)
       return;
 
@@ -316,6 +311,12 @@ function nextSong(){
 }
 
 function lastSong(){
+
+   songHistory.pop();
+   changeToSong(songHistory.pop());
+   return;
+
+
    if (!lastLoaded || !nextLoaded)
       return;
 
@@ -339,9 +340,35 @@ function lastSong(){
 function loadClientSong(file){
    nextLoaded = false;
    lastLoaded = false;
-   requestSong(file, songs.now);
    console.log(context.currentTime + " -- SongTree:")
    console.log(songs);
+}
+
+function changeToSong(index){
+   stop();
+   console.log("changing to song " + index);
+
+   if (index < bufferQueue.length) {
+      songs.now.buffer = bufferQueue[index];
+      updateCurrentSong(index);
+   }
+   else {
+      songs.now.buffer = bufferQueue[0];
+      updateCurrentSong(0);
+   }
+
+   play(true);
+}
+
+function loadNewSongs(){
+   if (bufferQueue.length >= songQueue.length)
+      return;
+
+   for (var i = bufferQueue.length; i < songQueue.length; i++){
+      requestSong(songQueue[i],i);
+   }
+
+
 }
 
 function loadSampleSong(){
