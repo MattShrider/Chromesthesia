@@ -1,4 +1,5 @@
 var songQueue = [];
+var fileNames = [];
 var currentSong = 0;
 
 //Makes Dialog Boxes Draggable
@@ -588,9 +589,10 @@ function updateBorderRadius(element, size){
 
 function addSong(file){
    songQueue.push(URL.createObjectURL(file));
+   fileNames.push(file.name);
    songName = file.name;
    songLocation = songQueue.length - 1;
-   $("#modal #SongQueue #SongList").append("<div class='space'></div><div id='Song" + songLocation+ "' class='Song' onclick='changeToSong("+songLocation+");updateCurrentSong(" + songLocation + ");' title='Play " + songName + "'>" + songName +" </div>");
+   //$("#modal #SongQueue #SongList").append("<div class='space'></div><div id='Song" + songLocation+ "' class='Song' onclick='changeToSong("+songLocation+");' title='Play " + songName + "'>" + songName +" </div>");
 }
 
 function updateCurrentSong(queueNumber){

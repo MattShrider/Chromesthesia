@@ -120,6 +120,7 @@ function requestSong(url, index){
                return;
             }
 
+            $("#modal #SongQueue #SongList").append("<div class='space'></div><div id='Song" + index + "' class='Song' onclick='changeToSong("+index+");' title='Play " + fileNames[index] + "'>" + fileNames[index] +" </div>");
             bufferQueue.push(buffer);
             if (index == 0) {
                songs.now.buffer = buffer;
@@ -129,6 +130,7 @@ function requestSong(url, index){
 
             $("#LoadingDialog").hide();
             previousSongLoaded = true;
+
 
          },
          function(error) {
@@ -346,6 +348,10 @@ function loadClientSong(file){
 
 function changeToSong(index){
    stop();
+
+   if (bufferQueue.length == 0)
+      return;
+
    console.log("changing to song " + index);
 
    if (index < bufferQueue.length) {
