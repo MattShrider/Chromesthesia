@@ -588,6 +588,9 @@ function updateBorderRadius(element, size){
 }
 
 function addSong(file){
+   if ($.inArray(file.name, fileNames) !== -1)
+      return;
+
    songQueue.push(URL.createObjectURL(file));
    fileNames.push(file.name);
    songName = file.name;
