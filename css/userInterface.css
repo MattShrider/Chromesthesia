@@ -49,10 +49,10 @@ a:active {color:#1fcaee;}  /* selected link */
 }
 
 #LoadingDialog {
-	left: 40%;
-	top: 40%;
-	height: 35px;
-	width: 250px;
+	right: 0px;
+	bottom: 0px;
+	position: fixed;
+	z-index: 100;
 }
 
 #SettingsDialog {
