@@ -17,8 +17,6 @@
 		<script src="js/three.min.js"></script>
     </head>
     <body>
-       <script src="js/main.js"></script>
-       <script src="js/scenes/scene1.js"></script>
     	<!-- The Side-Window that will display the advanced controls -->
 		<div id="modal">
             <h2>Advance Control Panel</h2>
@@ -26,6 +24,10 @@
             <table id="ButtonContainer">
                 <td id="Settings"><button id="SettingsButton" class="Button">Settings</button></td>
             </table>
+            <div id="SongQueue" >
+                <div class="divTitle">Song Queue</div>
+                <div id="SongList"></div>
+            </div>
             <Button id="CloseModalButton" class="Button" onClick="javascript:$.pageslide.close()">Close</Button>
         </div>
         <!-- The Welcome Dialog box that promptsthe user for the initial sound -->
@@ -39,7 +41,7 @@
                 <li class="ButtonList"><button id="RemoteButton" class="Button" title="Load Remote song through URL">Load Remote</button></li>
                 <li class="ButtonList"><button id="SampleButton" class="Button" title="Load Sample song">Load Sample</button></li>
             </ul>
-            <input id="LocalSong" type="file" accept="audio/*"style="display: none;" src="audio/sample.mp3"/>
+            <input multiple='multiples' id="LocalSong" type="file" accept="audio/*"style="display: none;" src="audio/sample.mp3"/>
         </div>
         <div id="LoadRemoteDialog" class="DialogBox" style="display: none;">
             <div class="DialogTitle">Enter Remote Address for Song</div>
@@ -60,10 +62,18 @@
 				<div class="space"></div>
 				<table id="ButtonContainer" align="center">
 					<!--<td id="RecordSound" > <button class="Button">Record</button></td>-->
-					<td id="PlaySound" ><button class="Button" Title="Play Song from the beginning">Play</button></td>
-                    <td id="ResumeSound"><button class="Button" Title="Play Song from the set position">Resume</button></td>
-					<td id="StopSound" ><button class="Button" Title="Stop the song">Stop</button></td>
-                    <td id="Welcome"><button id="WelcomeButton" class="Button">Load File</button></td>
+                    <tr>
+    					<td id="PlaySound" ><button class="Button" Title="Play Song from the beginning">Play</button></td>
+                        <td id="ResumeSound"><button class="Button" Title="Play Song from the set position">Resume</button></td>
+    					<td id="StopSound" ><button class="Button" Title="Stop the song">Stop</button></td>
+                        <td id="Welcome"><button id="WelcomeButton" class="Button">Load File</button></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td id="PreviousSong"><button class="Button" Title="Play Previous Song">Previous</button></td>
+                        <td><button id="NextSong" class="Button" Title="Play Next Song">Next</button></td>
+                        <td></td>
+                    </tr>
 				</table>
 				<div class="space"></div>
                 Volume: <input type="range" id="SongVolume" class="Slider" min="0" max="200" value="30">
@@ -72,8 +82,7 @@
 				<button id="SideWindow" href="#modal" class="advance-controls Button" >Advance Controls</button>
 			</div>
 		</div>
-        <div id="LoadingDialog" class="DialogBox" style="display: none;">
-            <div class="DialogTitle">Loading Song</div>
+        <div id="LoadingDialog" style="display: none;"><img src="images/loading.gif"></img>
         </div>
         <div id="SettingsDialog" class="DialogBox" style="display:none;">
             <div id="SettingsTitle" class="DialogTitle">Settings</div>
@@ -146,6 +155,8 @@
                 Created By: Matthew Shrider, Calvin Hamilton, Christian Evans, Lucas Ordaz
             </div>
         </div>
+       <script src="js/main.js"></script>
+       <script src="js/scenes/scene1.js"></script>
     </body>
 	<!-- These js files need to be down here to work correctly -->
 	<script type="text/javascript" src="js/jquery.pageslide.min.js"></script>

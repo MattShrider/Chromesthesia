@@ -1,3 +1,7 @@
+var songQueue = [];
+var fileNames = [];
+var currentSong = 0;
+
 //Makes Dialog Boxes Draggable
 $(".DialogBox").draggable();
 
@@ -21,7 +25,7 @@ $("#RemoteButton").click(function(){
 
 $("#RemoteSubmit").click(function(){
 	$("#LoadRemoteDialog").hide();
-	loadRemoteSong($("#RemoteURL").val());
+	/*loadClientSong($("#RemoteURL").val());*/
 	$("#ControlBox").show();
 });
 
@@ -57,8 +61,26 @@ $("#ResumeSound").click(function(){
     resume();
 });
 
+$("#NextSong").click(function(){
+   nextSong();
+});
+
+$("#PreviousSong").click(function(){
+   lastSong();
+});
+
 LocalSong.onchange = function(){
-   loadClientSong(URL.createObjectURL(this.files[0]));
+    for(var i = 0; i < this.files.length; i++){
+        addSong(this.files[i]);
+        /*
+        if (songQueue.length - 1 == 0){
+            loadClientSong(URL.createObjectURL(this.files[i])); 
+            updateCurrentSong(currentSong);
+        }    
+        */
+    }
+   
+   
    $("#WelcomeBox").hide();
    $("#ControlBox").show();
 };
@@ -563,4 +585,21 @@ function updateBorderSize(element, size){
 }
 function updateBorderRadius(element, size){
 	$(element).css("border-radius", size  );   	
+}
+
+function addSong(file){
+   if ($.inArray(file.name, fileNames) !== -1)
+      return;
+
+   songQueue.push(URL.createObjectURL(file));
+   fileNames.push(file.name);
+   songName = file.name;
+   songLocation = songQueue.length - 1;
+   //$("#modal #SongQueue #SongList").append("<div class='space'></div><div id='Song" + songLocation+ "' class='Song' onclick='changeToSong("+songLocation+");' title='Play " + songName + "'>" + songName +" </div>");
+}
+
+function updateCurrentSong(queueNumber){
+    $("#modal #SongQueue #SongList #Song"+currentSong).removeClass("Playing");
+    currentSong = queueNumber;
+    $("#modal  #SongQueue #SongList #Song"+queueNumber).addClass("Playing");
 }

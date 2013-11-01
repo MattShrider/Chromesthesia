@@ -1,8 +1,5 @@
 var context;
 var source, sourceJs;
-var gainNode;
-var analyser;
-var songBuffer;
 var url;
 var songArray = new Array();
 var request;
@@ -11,59 +8,131 @@ var startOffset = 0;
 var stoppedNaturally = false;
 var songAlreadyEnded = false;
 var songPercent;
- 
+var nextLoaded = lastLoaded = false;
+var bufferQueue = new Array();
+var loadingBuffersUpTo = -1;
+var songHistory = new Array();
+var bufferIndex = -1;
+var previousSongLoaded = true;
+
+//Overload the modulo function to work with negative numbers (like it should)
+Number.prototype.mod = function(n) {
+   return ((this%n)+n)%n;
+}
+
+
 //create the audio context, there should only ever be one.
 window.AudioContext = window.AudioContext||window.webkitAudioContext;
 context = new AudioContext();
+
+var songs = { last: { source: null,
+                      buffer: null,
+                      gain: context.createGain(),
+                      name: "Last",
+                      index: 0},
+               now: { source: null,
+                      buffer: null,
+                      gain: context.createGain(),
+                      name: "Now",
+                      index: 0},
+              next: { source: null,
+                      buffer: null,
+                      gain: context.createGain(),
+                      name: "Next",
+                      index: 0},
+               mic: { source: null,
+                      gain: context.createGain(),
+                      name: "Mic",
+                      enabled: false}};
+
+var volume = context.createGain();
+var analyser = context.createAnalyser();
+var jsNode = context.createScriptProcessor(1024);
+
+volume.connect(context.destination);
+
+songs.last.gain.connect(volume);
+songs.next.gain.connect(volume);
+songs.now.gain.connect(volume);
+
+
+analyser.smoothingTimeConstant = 0.6;
+analyser.fftSize = 512;
+
+jsNode.connect(context.destination);
+analyser.connect(jsNode);
+
+jsNode.onaudioprocess = function(e) {
+   songArray = new Uint8Array(analyser.frequencyBinCount);
+   analyser.getByteFrequencyData(songArray);
+}
+
+songs.last.gain.connect(analyser);
+songs.next.gain.connect(analyser);
+songs.now.gain.connect(analyser);
+
+setVolume(.3);
+
+console.log(songs);
+
+/*
+ * The following block is for Microphone stuff.
+ * This doesn't work yet, but its the groundwork for next sprint.
+ */
+/*
+songs.mic.gain.connect(volume);
+navigator.webkitGetUserMedia({audio: true}, function(stream) {
+   songs.mic.source = context.createMediaStreamSource(stream);
+   songs.mic.source.connect(volume);
+}, function(e) {
+   console.log("Error with loading microphone", e);});
+*/
+
+
 
 /*
  * This function should take a url (either remote or local) and read the file as an binaryarray (music)
  * TODO - have a system for multiple requests in sequence, either stopping previous or merging into channels.
 */
-function requestSong(url){
+function requestSong(url, index){
+   if (index <= loadingBuffersUpTo)
+      return;
+   if (!previousSongLoaded)
+      return;
+   previousSongLoaded = false;
+
+   console.log("New request for index: " + index);
+   loadingBuffersUpTo = index;
+
    request = new XMLHttpRequest();
    request.open('GET', url, true);
    request.responseType = "arraybuffer";
    
    $("#LoadingDialog").show();
-   //When a requested file is loaded, decode it as audio and play it.  Also, create an analyser for it.
+
    request.onload = function() {
       context.decodeAudioData(
          request.response,
          function(buffer) {
-               
-               if(!buffer) {
-                  // Error decoding file data
-                  return;
-               }
-               songBuffer = buffer;
+            
+            if(!buffer) {
+               return;
+            }
 
-               gainNode = context.createGain();
-               sourceJs = context.createScriptProcessor(2048);
-               analyser = context.createAnalyser();
-               analyser.smoothingTimeConstant = 0.6;
-               analyser.fftSize = 512;
-   
-               if (source) {
-                  source.stop(0);
-               }
-
-               sourceJs.onaudioprocess = function(e) {
-                  songArray = new Uint8Array(analyser.frequencyBinCount);
-                  analyser.getByteFrequencyData(songArray);
-               };
-
-               $("#LoadingDialog").hide();
-   
-               //The song has been fully loaded now
-
-               startTime = 0;
-               startOffset = 0;
-               setVolume(.3);
+            $("#modal #SongQueue #SongList").append("<div class='space'></div><div id='Song" + index + "' class='Song' onclick='changeToSong("+index+");' title='Play " + fileNames[index] + "'>" + fileNames[index] +" </div>");
+            bufferQueue.push(buffer);
+            if (index == 0) {
+               songs.now.buffer = buffer;
                play(true);
+               updateCurrentSong(0);
+            }
+
+            $("#LoadingDialog").hide();
+            previousSongLoaded = true;
+
+
          },
          function(error) {
-               // Decoding error
          }
       );
    };
@@ -73,83 +142,79 @@ function requestSong(url){
 };
 
 //take the current source node and play its song
-function play(force) {
+function play(force, delay) {
+
+   if (currentSong != songHistory[songHistory.length - 1])
+      songHistory.push(currentSong);
+   console.log(songHistory);
+
+   delay = typeof delay !== 'undefined' ? delay : 0;
+
    //do not play if it is already playing
-   if (source && source.playbackState == AudioBufferSourceNode.PLAYING_STATE && !force)
+   if (songs.now.source && songs.now.source.playbackState == AudioBufferSourceNode.PLAYING_STATE && !force)
       return;
 
-   if (songBuffer){
-      sourceJs.buffer = songBuffer;
-      sourceJs.connect(context.destination);
+   if (songs.now.buffer){
+      songs.now.source = context.createBufferSource();
+      songs.now.source.buffer = songs.now.buffer;
 
-      source = context.createBufferSource();
-      source.buffer = songBuffer;
+      songs.now.source.connect(songs.now.gain);
 
-      source.connect(analyser);
-      analyser.connect(sourceJs);
-      source.connect(gainNode);
-      gainNode.connect(context.destination);
+      songs.now.source.start(context.currentTime + delay)
+      startTime = context.currentTime + delay;
 
-      source.start(0);
       stoppedNaturally = true;
       songAlreadyEnded = false;
-      startTime = context.currentTime;
       startOffset = 0;
-      console.log(context.currentTime +" -- Started playing with offset: " + startOffset);
-      console.log(source);
+      console.log(context.currentTime +" -- Started playing with offset: " + startOffset + " and delay: " + delay);
+      console.log(songs.now.source);
    }
 }
 
 //this stops a song, and destroys the node, this is the exact same as pausing.
 function stop() {
    //no source to stop
-   if (!source)
+   if (!songs.now.source)
       return;
 
    //do not stop if already stopped
-   if (!(source.playbackState == AudioBufferSourceNode.PLAYING_STATE))
+   if (!(songs.now.source.playbackState == AudioBufferSourceNode.PLAYING_STATE))
       return;
 
-   source.stop(0);
+   songs.now.source.stop(0);
    stoppedNaturally = false;
    songAlreadyEnded = false;
    startOffset += context.currentTime - startTime;
    console.log(context.currentTime +" -- Stopped playing: ");
 
-   console.log(source);
+   console.log(songs.now.source);
 }
 
 //resume playing from a last playing offset
 function resume() {
    //do not play if it is already playing
-   if (source && source.playbackState == AudioBufferSourceNode.PLAYING_STATE)
+   if (songs.now.source && songs.now.source.playbackState == AudioBufferSourceNode.PLAYING_STATE)
       return;
 
-   if (songBuffer){
-      sourceJs.buffer = songBuffer;
-      sourceJs.connect(context.destination);
+   if (songs.now.buffer){
+      songs.now.source = context.createBufferSource();
+      songs.now.source.buffer = songs.now.buffer;
 
-      source = context.createBufferSource();
-      source.buffer = songBuffer;
+      songs.now.source.connect(songs.now.gain);
 
-      source.connect(analyser);
-      analyser.connect(sourceJs);
-      source.connect(gainNode);
-      gainNode.connect(context.destination);
-
-      source.start(0, startOffset);
+      songs.now.source.start(0, startOffset);
       stoppedNaturally = true;
       songAlreadyEnded = false;
       startTime = context.currentTime;
       console.log(context.currentTime +" -- Started playing with offset: " + startOffset);
-      console.log(source);
+      console.log(songs.now.source);
    }
 }
 
 //Multiplies the volume by the gain, 0 = off, 1 = normal, 2 = double loud
 function setVolume(gain) {
-   if (gainNode ){
-      gainNode.gain.value = gain;
+   if (volume){
+      volume.gain.value = gain;
       console.log(context.currentTime +" -- Volume set to " + gain);
    }
 }
@@ -157,30 +222,25 @@ function setVolume(gain) {
 //Change the current time of the track to a percentage (0 to 1)
 function setPosition(percentage) {
 
-   if (songBuffer){
-      source.stop(0);
-      sourceJs.buffer = songBuffer;
-      sourceJs.connect(context.destination);
+   if (songs.now.buffer){
+      songs.now.source.stop(0);
 
-      source = context.createBufferSource();
-      source.buffer = songBuffer;
+      songs.now.source = context.createBufferSource();
+      songs.now.source.buffer = songs.now.buffer;
 
-      source.connect(analyser);
-      analyser.connect(sourceJs);
-      source.connect(gainNode);
-      gainNode.connect(context.destination);
+      songs.now.source.connect(songs.now.gain);
 
       //create an offset from the duration times percentage, where percentage is between 0 and 1
-      position = source.buffer.duration * (percentage < 0 ? 0 : percentage > 1 ? 1 : percentage);
+      position = songs.now.source.buffer.duration * (percentage < 0 ? 0 : percentage > 1 ? 1 : percentage);
 
       //we still have to set the offset, incase they stop/resume
       startOffset = position;
-      source.start(0, startOffset);
+      songs.now.source.start(0, startOffset);
       stoppedNaturally = true;
       songAlreadyEnded = false;
       startTime = context.currentTime;
       console.log(context.currentTime +" -- Moved song to time: " + position);
-      console.log(source);
+      console.log(songs.now.source);
    }
 }
 
@@ -188,22 +248,25 @@ function setPosition(percentage) {
 //every second, which can be used to set the position slider.
 function positionCallback() {
 
-   if (source && source.playbackState == AudioBufferSourceNode.PLAYING_STATE){
-      songPercent = (context.currentTime - startTime + startOffset) / source.buffer.duration;
+   if (songs.now.source && songs.now.source.playbackState == AudioBufferSourceNode.PLAYING_STATE){
+      songPercent = (context.currentTime - startTime + startOffset) / songs.now.source.buffer.duration;
    }
-   else if (source && source.playbackState != AudioBufferSourceNode.PLAYING_STATE){
+   else if (songs.now.source && songs.now.source.playbackState != AudioBufferSourceNode.PLAYING_STATE){
       if (stoppedNaturally){
          songPercent = 0.0;
          if (!songAlreadyEnded) songEnded();
       }
       else {
-         songPercent = startOffset / source.buffer.duration;
+         songPercent = startOffset / songs.now.source.buffer.duration;
       }
    }
    else 
       songPercent = 0;
 
    console.log(context.currentTime + " -- Time Callback: " + songPercent);
+
+
+   loadNewSongs();
    return songPercent;
 }
 setInterval(function(){
@@ -216,18 +279,101 @@ function songEnded(){
    startOffset = 0;
 
    console.log(context.currentTime + " -- Song has ended.");
-
+   nextSong();
 }
 
+function nextSong(){
+
+   changeToSong((currentSong + 1).mod(songQueue.length));
+   return;
+
+
+   if (!nextLoaded || !lastLoaded)
+      return;
+
+
+   stoppedNaturally = false;
+
+   nextLoaded = false;
+   lastLoaded = true;
+
+   console.log(context.currentTime + " -- Changing to next song");
+   stop();
+
+   songs.last.buffer = songs.now.buffer;
+   songs.now.buffer = songs.next.buffer;
+
+   updateCurrentSong((currentSong + 1).mod(songQueue.length));
+   play(true, .3);
+
+   requestSong(songQueue[(currentSong + 1).mod(songQueue.length)], songs.next);
+}
+
+function lastSong(){
+
+   songHistory.pop();
+   changeToSong(songHistory.pop());
+   return;
+
+
+   if (!lastLoaded || !nextLoaded)
+      return;
+
+   stoppedNaturally = false;
+   lastLoaded = false;
+   nextLoaded = true;
+
+   console.log(context.currentTime + " -- Changing to last song");
+   stop();
+
+   songs.next.buffer = songs.now.buffer;
+   songs.now.buffer = songs.last.buffer;
+
+   updateCurrentSong((currentSong - 1).mod(songQueue.length));
+   play(true, .3);
+
+   requestSong(songQueue[(currentSong - 1).mod(songQueue.length)], songs.last);
+
+}
 
 function loadClientSong(file){
-   requestSong(file);
+   nextLoaded = false;
+   lastLoaded = false;
+   console.log(context.currentTime + " -- SongTree:")
+   console.log(songs);
 }
 
-function loadRemoteSong(url){
-   requestSong(url);
+function changeToSong(index){
+   stop();
+
+   if (bufferQueue.length == 0)
+      return;
+
+   console.log("changing to song " + index);
+
+   if (index < bufferQueue.length) {
+      songs.now.buffer = bufferQueue[index];
+      updateCurrentSong(index);
+   }
+   else {
+      songs.now.buffer = bufferQueue[0];
+      updateCurrentSong(0);
+   }
+
+   play(true);
+}
+
+function loadNewSongs(){
+   if (bufferQueue.length >= songQueue.length)
+      return;
+
+   for (var i = bufferQueue.length; i < songQueue.length; i++){
+      requestSong(songQueue[i],i);
+   }
+
+
 }
 
 function loadSampleSong(){
-   requestSong('audio/sample.mp3');
+   requestSong('audio/sample.mp3', songs.now);
 }
