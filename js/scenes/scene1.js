@@ -42,14 +42,14 @@ for (var x = 0; x < 256; x++){
 scene.add(camera);
 
 camera.position.z = 80;
-var max = 1;
 function animate(){
    if(typeof songArray === 'object' && songArray.length > 0) {
       for (var x=0; x < songArray.length; x++){
+         var max = 1;
          var scale = songArray[x] / 40;
          if (scale > max)
             max = scale;
-         notes[x].scale.y = (scale < 0.3 ? 0.3 : scale);
+         notes[x].scale.y = (scale < 0.08 ? 0.08 : scale);
          scale = scale / max;
          uniformsArray[x].uHeight.value = (scale > 1.0 ? 1.0 : scale);
       }
