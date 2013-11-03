@@ -3,10 +3,7 @@ var fileNames = [];
 var currentSong = 0;
 
 //Makes Dialog Boxes Draggable
-$(".DialogBox").draggable();
-
-/* Slide to the left, and make it model (you'll have to call $.pageslide.close() to close) */
-$(".advance-controls").pageslide({ direction: "right", modal: true });
+//$(".DialogBox").draggable();
 
 $(".Close").click(function(){
 	$(this).parent().hide();
@@ -19,7 +16,7 @@ $("#LocalButton").click(function(){
 });
 
 $("#RemoteButton").click(function(){
-	$("#WelcomeBox").hide();
+	$("#WelcomeBanner").hide();
 	$("#LoadRemoteDialog").show();
 });
 
@@ -31,11 +28,11 @@ $("#RemoteSubmit").click(function(){
 
 $("#RemoteCancel").click(function(){
     $("#LoadRemoteDialog").hide();
-    $("#WelcomeBox").show();
+    $("#WelcomeBanner").show();
 });
 
 $("#SampleButton").click(function(){
-    $("#WelcomeBox").hide();
+    $("#WelcomeBanner").hide();
 	loadSampleSong();
 	$("#ControlBox").show();
 });
@@ -46,7 +43,7 @@ $("#SettingsButton").click(function(){
 });
 
 $("#WelcomeButton").click(function(){
-    $("#WelcomeBox").toggle();
+    $("#WelcomeBanner").toggle();
 }); 
 
 $("#PlaySound").click(function(){
@@ -70,6 +67,7 @@ $("#PreviousSong").click(function(){
 });
 
 LocalSong.onchange = function(){
+    $("#WelcomeBanner").hide();
     for(var i = 0; i < this.files.length; i++){
         addSong(this.files[i]);
         /*
@@ -81,7 +79,7 @@ LocalSong.onchange = function(){
     }
    
    
-   $("#WelcomeBox").hide();
+   $("#WelcomeBanner").hide();
    $("#ControlBox").show();
 };
 
@@ -92,6 +90,22 @@ SongPosition.onchange = function(){
 SongVolume.onchange = function() {
     setVolume(this.value/100);
 };
+
+/* Slide to the left, and make it model (you'll have to call $.pageslide.close() to close) */
+function showQueue(){
+    $("#modalborder").hide();
+    $.pageslide({ direction: "right", href:'#modal', modal: true });
+}
+
+function hideQueue(){
+    $.pageslide.close()
+    $("#modalborder").show();
+}
+
+function appendSong(index){
+  $("#modal #SongQueue #SongList").append("<li id='Song" + index + "' class='Song' onclick='changeToSong("+index+");' title='Play " + fileNames[index] + "'>" + fileNames[index] +" </li>");
+}
+
 
 //Below are funtions that handle the appearance change of the UI
 //They are connected to the inputs on the setting dialog window
@@ -601,5 +615,6 @@ function addSong(file){
 function updateCurrentSong(queueNumber){
     $("#modal #SongQueue #SongList #Song"+currentSong).removeClass("Playing");
     currentSong = queueNumber;
+    $("#SongName").html(fileNames[currentSong]);
     $("#modal  #SongQueue #SongList #Song"+queueNumber).addClass("Playing");
 }
