@@ -109,7 +109,7 @@ function requestSong(url, index){
    request.open('GET', url, true);
    request.responseType = "arraybuffer";
    
-   $("#LoadingDialog").show();
+   $("#LoadingIcon").show();
 
    request.onload = function() {
       context.decodeAudioData(
@@ -120,7 +120,7 @@ function requestSong(url, index){
                return;
             }
 
-            $("#modal #SongQueue #SongList").append("<div class='space'></div><div id='Song" + index + "' class='Song' onclick='changeToSong("+index+");' title='Play " + fileNames[index] + "'>" + fileNames[index] +" </div>");
+            appendSong(index);
             bufferQueue.push(buffer);
             if (index == 0) {
                songs.now.buffer = buffer;
@@ -128,7 +128,7 @@ function requestSong(url, index){
                updateCurrentSong(0);
             }
 
-            $("#LoadingDialog").hide();
+            $("#LoadingIcon").hide();
             previousSongLoaded = true;
 
 
