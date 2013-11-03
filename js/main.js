@@ -9,7 +9,6 @@ var startOffset = 0;
 var stoppedNaturally = false;
 var songAlreadyEnded = false;
 var songPercent;
-var nextLoaded = lastLoaded = false;
 var bufferQueue = new Array();
 var loadingBuffersUpTo = -1;
 var songHistory = new Array();
@@ -26,20 +25,11 @@ Number.prototype.mod = function(n) {
 window.AudioContext = window.AudioContext||window.webkitAudioContext;
 context = new AudioContext();
 
-var songs = { last: { source: null,
-                      buffer: null,
-                      gain: context.createGain(),
-                      name: "Last",
-                      index: 0},
+var songs = { 
                now: { source: null,
                       buffer: null,
                       gain: context.createGain(),
                       name: "Now",
-                      index: 0},
-              next: { source: null,
-                      buffer: null,
-                      gain: context.createGain(),
-                      name: "Next",
                       index: 0},
                mic: { source: null,
                       gain: context.createGain(),
@@ -52,8 +42,6 @@ var jsNode = context.createScriptProcessor(1024);
 
 volume.connect(context.destination);
 
-songs.last.gain.connect(volume);
-songs.next.gain.connect(volume);
 songs.now.gain.connect(volume);
 
 
@@ -68,8 +56,6 @@ jsNode.onaudioprocess = function(e) {
    analyser.getByteFrequencyData(songArray);
 }
 
-songs.last.gain.connect(analyser);
-songs.next.gain.connect(analyser);
 songs.now.gain.connect(analyser);
 
 setVolume(.3);
@@ -241,7 +227,6 @@ function setPosition(percentage) {
       songAlreadyEnded = false;
       startTime = context.currentTime;
       console.log(context.currentTime +" -- Moved song to time: " + position);
-      console.log(songs.now.source);
    }
 }
 
@@ -286,62 +271,14 @@ function songEnded(){
 function nextSong(){
 
    changeToSong((currentSong + 1).mod(songQueue.length));
-   return;
 
-
-   if (!nextLoaded || !lastLoaded)
-      return;
-
-
-   stoppedNaturally = false;
-
-   nextLoaded = false;
-   lastLoaded = true;
-
-   console.log(context.currentTime + " -- Changing to next song");
-   stop();
-
-   songs.last.buffer = songs.now.buffer;
-   songs.now.buffer = songs.next.buffer;
-
-   updateCurrentSong((currentSong + 1).mod(songQueue.length));
-   play(true, .3);
-
-   requestSong(songQueue[(currentSong + 1).mod(songQueue.length)], songs.next);
 }
 
 function lastSong(){
 
    songHistory.pop();
    changeToSong(songHistory.pop());
-   return;
 
-
-   if (!lastLoaded || !nextLoaded)
-      return;
-
-   stoppedNaturally = false;
-   lastLoaded = false;
-   nextLoaded = true;
-
-   console.log(context.currentTime + " -- Changing to last song");
-   stop();
-
-   songs.next.buffer = songs.now.buffer;
-   songs.now.buffer = songs.last.buffer;
-
-   updateCurrentSong((currentSong - 1).mod(songQueue.length));
-   play(true, .3);
-
-   requestSong(songQueue[(currentSong - 1).mod(songQueue.length)], songs.last);
-
-}
-
-function loadClientSong(file){
-   nextLoaded = false;
-   lastLoaded = false;
-   console.log(context.currentTime + " -- SongTree:")
-   console.log(songs);
 }
 
 function changeToSong(index){
@@ -376,5 +313,5 @@ function loadNewSongs(){
 }
 
 function loadSampleSong(){
-   requestSong('audio/sample.mp3', songs.now);
+   requestSong('audio/sample.mp3', bufferQueue.length);
 }
