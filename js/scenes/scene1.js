@@ -1,4 +1,7 @@
 var scene = new THREE.Scene();
+var width = 210;
+var height = 110;
+//var camera = new THREE.OrthographicCamera( width / -2, width / 2, height / 2, height / -2, 1, 1000);
 var camera = new THREE.PerspectiveCamera(60,window.innerWidth / window.innerHeight, 1, 1000);
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -42,6 +45,7 @@ for (var x = 0; x < 256; x++){
 scene.add(camera);
 
 camera.position.z = 80;
+//camera.position.z = 4;
 function animate(){
    if(typeof songArray === 'object' && songArray.length > 0) {
       for (var x=0; x < songArray.length; x++){
