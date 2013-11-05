@@ -313,5 +313,18 @@ function loadNewSongs(){
 }
 
 function loadSampleSong(){
-   requestSong('audio/sample.mp3', bufferQueue.length);
+   var xhr = new XMLHttpRequest();
+   xhr.open('GET', 'audio/sample.mp3', true);
+   xhr.responseType = 'blob';
+
+   xhr.onload = function(e) {
+      if (this.status == 200) {
+         // Note: .response instead of .responseText
+         var blob = new Blob([this.response], {type: 'audio/mp3'});
+         blob.name = "Sample Song";
+         addSong(blob)
+      }
+   };
+
+   xhr.send();
 }
