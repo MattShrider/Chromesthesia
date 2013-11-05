@@ -9,44 +9,34 @@
         <script type="text/javascript" src="js/spectrum.js"></script>
         <script type="text/javascript" src="js/jquery.fontselect.js"></script>
 		<!-- CSS Files -->
-		<link rel="stylesheet" type="text/css" href="css/jquery.pageslide.css" />
+
 		<link rel="stylesheet" type="text/css" href="css/userInterface.css" />
         <link rel="stylesheet" type="text/css" href="css/spectrum.css" />
         <link rel="stylesheet" type="text/css" href="css/fontselect.css" />
 		<!-- Javascript Files -->
 		<script src="js/three.min.js"></script>
+      <script src="js/shaders/scene-helper.js"></script>
     </head>
     <body>
-       <script src="js/main.js"></script>
-       <script src="js/scenes/calvinScene2.js"></script>
     	<!-- The Side-Window that will display the advanced controls -->
 		<div id="modal">
-            <h2>Advance Control Panel</h2>
-            <p>Various Controls Here</p>
-            <table id="ButtonContainer">
-                <td id="Settings"><button id="SettingsButton" class="Button">Settings</button></td>
-            </table>
             <div id="SongQueue" >
-                <div class="divTitle">Song Queue</div>
-                <div id="SongList"></div>
+                <div id="QueueTitle">Song Queue</div>
+                <ul id="SongList"></ul>
             </div>
-            <Button id="CloseModalButton" class="Button" onClick="javascript:$.pageslide.close()">Close</Button>
-        </div>
-        <!-- The Welcome Dialog box that promptsthe user for the initial sound -->
-        <div id="WelcomeBox" class="DialogBox" >
-            <div id="WelcomeTitle">
-                <div id="WelcomeTitle" class="DialogTitle">Welcome to Chromesthesia</div>
+            <div id="inside-modal-border" onClick='hideQueue();'>
+                <div id="inside-modal-handle"></div>
             </div>
-            <button class="Button Close" Title="Close Window"></button>
-            <ul class="ButtonContainer" align="center">
-                <li class="ButtonList"><button id="LocalButton" class="Button" title="Load Local Song">Load Local</button></li>
-                <li class="ButtonList"><button id="RemoteButton" class="Button" title="Load Remote song through URL">Load Remote</button></li>
-                <li class="ButtonList"><button id="SampleButton" class="Button" title="Load Sample song">Load Sample</button></li>
-            </ul>
-            <input multiple='multiples' id="LocalSong" type="file" accept="audio/*"style="display: none;" src="audio/sample.mp3"/>
         </div>
-        <div id="LoadRemoteDialog" class="DialogBox" style="display: none;">
-            <div class="DialogTitle">Enter Remote Address for Song</div>
+        <div id="modalborder" onClick='showQueue();'>
+            <div id="modal-handle"></div>
+        </div>
+        <!-- The Welcome Banner -->
+        <div id="WelcomeBanner">
+                <div id="WelcomeTitle">Welcome to Chromesthesia</div>
+        </div>
+        <div id="LoadRemoteDialog" class="" style="display: none;">
+            <div class="">Enter Remote Address for Song</div>
             <button class="Button Close" Title="Close Window"></button>
             <ul class="ButtonContainer">
                 <li><input id="RemoteURL" type="text"style="width: 100%;"/><li>
@@ -56,108 +46,37 @@
                 <div id="RemoteCancel" class="Button">Cancel</div>
             </div>
         </div>
+        <div id="scene">
+        </div>
         <!-- These basic control box that contains the simple controls -->
-		<div id="ControlBox" class="DialogBox" style="display: none;">
-			<div id="CBTitle" class="DialogTitle">Control Box</div>
-			<div id="CBControls" class="CBControls">
-				<!--Basic App Starting Instruction-->
-				<div class="space"></div>
-				<table id="ButtonContainer" align="center">
-					<!--<td id="RecordSound" > <button class="Button">Record</button></td>-->
-                    <tr>
-    					<td id="PlaySound" ><button class="Button" Title="Play Song from the beginning">Play</button></td>
-                        <td id="ResumeSound"><button class="Button" Title="Play Song from the set position">Resume</button></td>
-    					<td id="StopSound" ><button class="Button" Title="Stop the song">Stop</button></td>
-                        <td id="Welcome"><button id="WelcomeButton" class="Button">Load File</button></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td id="PreviousSong"><button class="Button" Title="Play Previous Song">Previous</button></td>
-                        <td><button id="NextSong" class="Button" Title="Play Next Song">Next</button></td>
-                        <td></td>
-                    </tr>
-				</table>
-				<div class="space"></div>
-                Volume: <input type="range" id="SongVolume" class="Slider" min="0" max="200" value="30">
-                <br/>
-                Position: <input type="range" id="SongPosition" class="Slider" min="0" max="1" step=".001" value="0">
-				<button id="SideWindow" href="#modal" class="advance-controls Button" >Advance Controls</button>
-			</div>
+		<div id="ControlBox">
+            <div id="CBControls" class="CBControls">
+                <!--<td id="RecordSound" > <button class="Button">Record</button></td>-->
+                <div id="SongInfoContainer">
+                    Song Name: <div id="SongName"></div>
+                </div>
+                <div id="ControlButtons">
+                    <button id="PreviousSong" class="Button" Title="Play Previous Song">Prev</button>
+                    <button id="ResumeSound" class="Button">Pause</button>
+                    <button id="PlaySound" class="Button">Play</button>
+                    <button id="StopSound" class="Button">Stop</button>
+                    <button id="NextSong" class="Button" Title="Play Next Song">Next</button>
+                
+                </div>
+                <div id="ContentButtons">
+                    <button id="LocalButton" class="Button" title="Load Local Song">Load Local</button>
+                    <button id="SampleButton" class="Button" title="Load Sample song">Load Sample</button>
+                </div>
+                <div id="VolumeContainer">
+                    Volume: <input type="range" id="SongVolume" class="Slider" min="0" max="200" value="30">
+                </div>
+                <input type="range" id="SongPosition" class="Slider" min="0" max="1" step=".001" value="0">
+            </div>
 		</div>
-        <div id="LoadingDialog" class="DialogBox" style="display: none;">
-            <div class="DialogTitle">Loading Song</div>
-        </div>
-        <div id="SettingsDialog" class="DialogBox" style="display:none;">
-            <div id="SettingsTitle" class="DialogTitle">Settings</div>
-            <button class="Button Close" Title="Close Window"></button>
-            <div id="MainWindowSettings" class="SettingsContainer">
-                <div class="divTitle">Main Window Options</div>
-                <ul class="ButtonContainer">
-                    <li class="SettingsCell">Background Color: <input type='text' id="BackgroundColor"/></li>
-                </ul>
-            </div>
-            <br/>
-            <div id="DialogWindowSettings" class="SettingsContainer">
-                <div class="divTitle">Dialog Window Options</div>
-                <ul class="ButtonContainer">
-                    <li class="SettingsCell">Font Type: <input id="font" type="text" style="display: none;"></li>
-                    <li class="SettingsCell">Font Size: <input id="DialogFontSize" type='number'style="width: 30%;"/></li>
-                    <li class="SettingsCell">Font Color: <input type='text' id="DialogFontColor"/></li>
-                    <li class="SettingsCell">Background Color: <input type='text' id="DialogBGColor"/></li>
-                    <li class="SettingsCell">Border Radius: <input id="DialogBorderRadius" type='number' style="width: 30%;"/></li>
-                    <li class="SettingsCell">Border Color: <input type='text' id="DialogBorderColor"/></li>
-                    <li class="SettingsCell">Border Size: <input id="DialogBorderSize" type='number' style="width: 30%;"/></li>
-                </ul>
-            </div>
-            <div id="DialogTitleSettings" class="SettingsContainer">
-                <div class="divTitle">Dialog Title Options</div>
-                <ul class="ButtonContainer">
-                    <li class="SettingsCell">Font Size: <input id="DialogTitleFontSize" type='number'style="width: 30%;"/></li>
-                    <li class="SettingsCell">Font Color: <input type='text' id="DialogTitleFontColor"/></li>
-                    <li class="SettingsCell">Background Color: <input type='text' id="DialogTitleBGColor"/></li>
-                    <li class="SettingsCell">Border Radius: <input id="DialogTitleBorderRadius" type='number' style="width: 30%;"/></li>
-                </ul>
-            </div>
-            <div id="DialogFooterSettings" class="SettingsContainer">
-                <div class="divTitle">Dialog Footer Options</div>
-                <ul class="ButtonContainer">
-                    <li class="SettingsCell">Font Size: <input id="DialogFooterFontSize" type='number'style="width: 30%;"/></li>
-                    <li class="SettingsCell">Font Color: <input type='text' id="DialogFooterFontColor"/></li>
-                    <li class="SettingsCell">Background Color: <input type='text' id="DialogFooterBGColor"/></li>
-                    <li class="SettingsCell">Border Radius: <input id="DialogFooterBorderRadius" type='number' style="width: 30%;"/></li>
-                </ul>
-            </div>
-            <div id="ButtonSettings" class="SettingsContainer">
-                <div class="divTitle">Button Options</div>
-                <ul class="ButtonContainer">
-                    <li class="SettingsCell">Font Size: <input id="ButtonFontSize" type='number'style="width: 30%;"/></li>
-                    <li class="SettingsCell">Font Color: <input type='text' id="ButtonFontColor"/></li>
-                    <li class="SettingsCell">Background Color: <input type='text' id="ButtonBGColor"/></li>
-                    <li class="SettingsCell">Border Radius: <input id="ButtonBorderRadius" type='number' style="width: 30%;"/></li>
-                    <li class="SettingsCell">Border Color: <input type='text' id="ButtonBorderColor"/></li>
-                    <li class="SettingsCell">Border Size: <input id="ButtonBorderSize" type='number' style="width: 30%;"/></li>
-                </ul>
-            </div>
-            <div id="CloseButtonSettings" class="SettingsContainer">
-                <div class="divTitle">Close Button Options</div>
-                <ul class="ButtonContainer">
-                    <li class="SettingsCell">Background Color: <input type='text' id="CloseButtonBGColor"/></li>
-                    <li class="SettingsCell">Border Radius: <input id="CloseButtonBorderRadius" type='number' style="width: 30%;"/></li>
-                    <li class="SettingsCell">Border Color: <input type='text' id="CloseButtonBorderColor"/></li>
-                    <li class="SettingsCell">Border Size: <input id="CloseButtonBorderSize" type='number' style="width: 30%;"/></li>
-                </ul>
-            </div>
-            <div id="ModalSettings" class="SettingsContainer">
-                <div class="divTitle">Modal Options</div>
-                <ul class="ButtonContainer">
-                    <li class="SettingsCell">Background Color: <input type='text' id="ModalBGColor"/></li>
-                    <li class="SettingsCell">Font Color: <input type='text' id="ModalFontColor"/></li>
-                </ul>
-            </div>
-            <div id="SettingsFooter" class="DialogFooter">
-                Created By: Matthew Shrider, Calvin Hamilton, Christian Evans, Lucas Ordaz
-            </div>
-        </div>
+        <div id="LoadingIcon" style="display:none;"><img src="images/loading.gif"></img></div>
+        <input multiple='multiples' id="LocalSong" type="file" accept="audio/*"style="display: none;" src="audio/sample.mp3"/>
+        <script src="js/main.js"></script>
+        <script src="js/scenes/scene1.js"></script>
     </body>
 	<!-- These js files need to be down here to work correctly -->
 	<script type="text/javascript" src="js/jquery.pageslide.min.js"></script>
