@@ -17,14 +17,6 @@ scene.add(camera);
 scene.add(pointLight);
 
 function animate(){
-   if(typeof songArray === 'object' && songArray.length > 0) {
-      for (var x=0; x < songArray.length; x++){
-         var scale = songArray[x] / 30;
-         sphere.geometry.vertices[x] = (scale < 1 ? 1 : scale);
-      }
-   }
-   sphere.geometry.vertiesNeedUpdate = true;
-
    renderer.render(scene,camera);
    requestAnimationFrame(function(){animate();});
 };
