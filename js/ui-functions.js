@@ -80,7 +80,6 @@ LocalSong.onchange = function(){
    
    
    $("#WelcomeBanner").hide();
-   $("#ControlBox").show();
 };
 
 SongPosition.onchange = function(){
@@ -602,13 +601,13 @@ function updateBorderRadius(element, size){
 }
 
 function addSong(file){
-   if ($.inArray(file.name, fileNames) !== -1)
-      return;
+    if ($.inArray(file.name, fileNames) !== -1)
+        return;
 
-   songQueue.push(URL.createObjectURL(file));
-   fileNames.push(file.name);
-   songName = file.name;
-   songLocation = songQueue.length - 1;
+    songQueue.push(URL.createObjectURL(file));
+    fileNames.push(file.name);
+    songName = file.name;
+    songLocation = songQueue.length - 1;
    //$("#modal #SongQueue #SongList").append("<div class='space'></div><div id='Song" + songLocation+ "' class='Song' onclick='changeToSong("+songLocation+");' title='Play " + songName + "'>" + songName +" </div>");
 }
 
