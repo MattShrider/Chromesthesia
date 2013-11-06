@@ -207,9 +207,33 @@ a:active {color:#1fcaee;}  /* selected link */
 	width: 20%;
 }
 
-#PlaySound, #ResumeSound, #StopSound {
+#PlaySound, #StopSound {
 	height: 100%;
 	width: 10%;
+}
+
+.icon-image {
+	position: relative;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	height: 100%;
+	width: 100%;
+}
+
+#play-image {
+	background-image: url("../images/play.png");
+}
+
+#pause-image {
+	background-image: url("../images/pause.png");
+}
+
+#next-image {
+	background-image: url("../images/next.png");
+}
+
+#prev-image {
+	background-image: url("../images/prev.png");
 }
 
 #PreviousSong, #NextSong {
