@@ -22,7 +22,8 @@ for (var x = 0; x < 256; x++){
    var randomColor = "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);});
 
    uniformsArray.push({
-      uHeight: {type: "f", value: 1.0}
+      uHeight: {type: "f", value: 1.0},
+      uTime: {type: "f", value: context.currentTime}
                       });
 
    var mat = new THREE.ShaderMaterial({
@@ -56,6 +57,7 @@ function animate(){
          notes[x].scale.y = (scale < 0.08 ? 0.08 : scale);
          scale = scale / max;
          uniformsArray[x].uHeight.value = (scale > 1.0 ? 1.0 : scale);
+         uniformsArray[x].uTime.value = context.currentTime;
       }
    }
 

@@ -1,4 +1,5 @@
 uniform float uHeight;
+uniform float uTime;
 varying vec3 vNormal;
 varying vec3 vPosition;
 varying vec3 vCameraPosition;
@@ -118,9 +119,10 @@ void main() {
 
    float dProd = max(0.0, dot(vNormal, lightToFragment));
 
-   float red = uHeight - (12.0 - vPosition.y) * 0.07;
-   float blue = abs(vPosition.y) * 0.1 * (0.5 + uHeight) * clamp(uHeight - 0.3,0.0,7.0);
-   float green = snoise(vPosition) * 0.5 * max(blue, 0.0);
+   float red = (uHeight - (12.0 - vPosition.y) * 0.07) + sin(uTime) * 0.1;
+   float blue = 1.3 * (abs(vPosition.y) * 0.1 * (0.5 + uHeight) * clamp(uHeight - 0.3,0.0,7.0));
+   float green = 1.2 * snoise(vPosition + sin(uTime)) * 0.5 * max(blue, 0.0);
 
-   gl_FragColor = vec4( red * dProd, green * dProd, blue * dProd, 1.0);
+   vec3 color = vec3(red * dProd, green * dProd, blue * dProd);
+   gl_FragColor = vec4(color, 1.0);
 }
