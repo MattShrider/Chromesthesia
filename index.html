@@ -21,15 +21,14 @@
     	<!-- The Side-Window that will display the advanced controls -->
 		<div id="modal">
             <div id="SongQueue" >
-                <div id="QueueTitle">Song Queue</div>
                 <ul id="SongList"></ul>
             </div>
             <div id="inside-modal-border" onClick='hideQueue();'>
-                <div id="inside-modal-handle"></div>
+                <div id="inside-modal-handle"><div class="sq-logo"></div></div>
             </div>
         </div>
         <div id="modalborder" onClick='showQueue();'>
-            <div id="modal-handle"></div>
+            <div id="modal-handle"><div class="sq-logo"></div></div>
         </div>
         <!-- The Welcome Banner -->
         <div id="WelcomeBanner">
@@ -57,9 +56,8 @@
                 </div>
                 <div id="ControlButtons">
                     <button id="PreviousSong" class="Button" Title="Play Previous Song">Prev</button>
-                    <button id="ResumeSound" class="Button">Pause</button>
                     <button id="PlaySound" class="Button">Play</button>
-                    <button id="StopSound" class="Button">Stop</button>
+                    <button id="StopSound" class="Button">Pause</button>
                     <button id="NextSong" class="Button" Title="Play Next Song">Next</button>
                 
                 </div>
