@@ -142,6 +142,7 @@ function play(force, delay) {
       return;
 
    if (songs.now.buffer){
+
       songs.now.source = context.createBufferSource();
       songs.now.source.buffer = songs.now.buffer;
 
@@ -149,6 +150,9 @@ function play(force, delay) {
 
       songs.now.source.start(context.currentTime + delay)
       startTime = context.currentTime + delay;
+
+      if (!stoppedNaturally)
+         playAfterStop();
 
       stoppedNaturally = true;
       songAlreadyEnded = false;
@@ -168,6 +172,7 @@ function stop() {
    if (!(songs.now.source.playbackState == AudioBufferSourceNode.PLAYING_STATE))
       return;
 
+   stopAfterPlay();
    songs.now.source.stop(0);
    stoppedNaturally = false;
    songAlreadyEnded = false;
@@ -190,6 +195,10 @@ function resume() {
       songs.now.source.connect(songs.now.gain);
 
       songs.now.source.start(0, startOffset);
+
+      if (!stoppedNaturally)
+         playAfterStop();
+
       stoppedNaturally = true;
       songAlreadyEnded = false;
       startTime = context.currentTime;
@@ -258,6 +267,20 @@ function positionCallback() {
 setInterval(function(){
  SongPosition.value = positionCallback(); 
 }, 1000);
+
+//event called after the song has started playing after it was stopped
+function playAfterStop(){
+   console.log(context.currentTime + " -- Song started playing");
+
+   //Call a function which should make the pause button visible
+}
+
+function stopAfterPlay(){
+   console.log(context.currentTime + " -- Song just paused");
+
+   //Call a function which should make the play button visible
+}
+
 
 //Function which is called at the end of a song.
 function songEnded(){
