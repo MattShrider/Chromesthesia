@@ -47,15 +47,17 @@ $("#WelcomeButton").click(function(){
 }); 
 
 $("#PlaySound").click(function(){
-    play();
+    resume();
+    togglePlayPause();
 });
 
 $("#StopSound").click(function(){
     stop();
+    togglePlayPause();
 });
 
 $("#ResumeSound").click(function(){
-    resume();
+    //resume();
 });
 
 $("#NextSong").click(function(){
@@ -68,6 +70,8 @@ $("#PreviousSong").click(function(){
 
 LocalSong.onchange = function(){
     $("#WelcomeBanner").hide();
+    togglePlayPause();
+    showQueue();
     for(var i = 0; i < this.files.length; i++){
         addSong(this.files[i]);
         /*
@@ -97,12 +101,17 @@ function showQueue(){
 }
 
 function hideQueue(){
-    $.pageslide.close()
+    $.pageslide.close();
     $("#modalborder").show();
 }
 
 function appendSong(index){
-  $("#modal #SongQueue #SongList").append("<li id='Song" + index + "' class='Song' onclick='changeToSong("+index+");' title='Play " + fileNames[index] + "'>" + fileNames[index] +" </li>");
+  $("#modal #SongQueue #SongList").append("<li id='Song" + index + "' class='Song' onclick='changeToSong("+index+");' title='Play " + fileNames[index] + "'><marquee behavior='scroll' direction='left' scrollamount='0'>" + fileNames[index] +"</marquee> </li>");
+}
+
+function togglePlayPause() {
+    $('#PlaySound').toggle();
+    $('#StopSound').toggle();
 }
 
 

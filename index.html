@@ -21,15 +21,14 @@
     	<!-- The Side-Window that will display the advanced controls -->
 		<div id="modal">
             <div id="SongQueue" >
-                <div id="QueueTitle">Song Queue</div>
                 <ul id="SongList"></ul>
             </div>
             <div id="inside-modal-border" onClick='hideQueue();'>
-                <div id="inside-modal-handle"></div>
+                <div id="inside-modal-handle"><div class="sq-logo"></div></div>
             </div>
         </div>
         <div id="modalborder" onClick='showQueue();'>
-            <div id="modal-handle"></div>
+            <div id="modal-handle"><div class="sq-logo"></div></div>
         </div>
         <!-- The Welcome Banner -->
         <div id="WelcomeBanner">
@@ -56,11 +55,10 @@
                     Song Name: <div id="SongName"></div>
                 </div>
                 <div id="ControlButtons">
-                    <button id="PreviousSong" class="Button" Title="Play Previous Song">Prev</button>
-                    <button id="ResumeSound" class="Button">Pause</button>
-                    <button id="PlaySound" class="Button">Play</button>
-                    <button id="StopSound" class="Button">Stop</button>
-                    <button id="NextSong" class="Button" Title="Play Next Song">Next</button>
+                    <button id="PreviousSong" class="Button" Title="Play Previous Song"><div id="prev-image" class="icon-image"></div></button>
+                    <button id="PlaySound" class="Button" title="Play Song"><div id="play-image" class="icon-image"></div></button>
+                    <button id="StopSound" class="Button" title="Pause Song" style="display: none;"><div id="pause-image" class="icon-image"></div></button>
+                    <button id="NextSong" class="Button" Title="Play Next Song"><div id="next-image" class="icon-image"></div></button>
                 
                 </div>
                 <div id="ContentButtons">
