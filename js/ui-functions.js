@@ -48,12 +48,10 @@ $("#WelcomeButton").click(function(){
 
 $("#PlaySound").click(function(){
     resume();
-    togglePlayPause();
 });
 
 $("#StopSound").click(function(){
     stop();
-    togglePlayPause();
 });
 
 $("#ResumeSound").click(function(){
@@ -70,7 +68,6 @@ $("#PreviousSong").click(function(){
 
 LocalSong.onchange = function(){
     $("#WelcomeBanner").hide();
-    togglePlayPause();
     showQueue();
     for(var i = 0; i < this.files.length; i++){
         addSong(this.files[i]);

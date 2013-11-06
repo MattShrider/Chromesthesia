@@ -273,12 +273,14 @@ function playAfterStop(){
    console.log(context.currentTime + " -- Song started playing");
 
    //Call a function which should make the pause button visible
+   togglePlayPause();
 }
 
 function stopAfterPlay(){
    console.log(context.currentTime + " -- Song just paused");
 
    //Call a function which should make the play button visible
+   togglePlayPause();
 }
 
 
