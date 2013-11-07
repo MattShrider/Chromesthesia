@@ -34,18 +34,34 @@
         <div id="WelcomeBanner">
                 <div id="WelcomeTitle">Welcome to Chromesthesia</div>
         </div>
-        <div id="LoadRemoteDialog" class="" style="display: none;">
-            <div class="">Enter Remote Address for Song</div>
-            <button class="Button Close" Title="Close Window"></button>
-            <ul class="ButtonContainer">
-                <li><input id="RemoteURL" type="text"style="width: 100%;"/><li>
-            </ul>
-            <div id="RemoteFunction" class="SubmitCancel">                
-                <div id="RemoteSubmit" class="Button">Submit</div>
-                <div id="RemoteCancel" class="Button">Cancel</div>
+        <div id="scene">
+        </div>
+        <div id="advance-controls">
+            <div id="sc-auth">
+                <div class="sc-auth-title">Sound Cloud Credentials</div>
+                <form id="sc-auth-form">
+                    Username: <input type="text" name="sc-username" id="sc-username">
+                    <br/>
+                    Password: <input type="password" name="sc-pass" id="sc-pass">
+                    <br/>
+                    <button id="sc-auth-submit" class="Button">Submit</button>
+                </form>
+            </div>
+            <br/>
+            <div id="sc-song">
+                <div class="sc-url-title">Sound Cloud Song</div>
+                <form id="sc-url-form" >
+                    URL: <input type="text" name="sc-url" id="sc-url">
+                    <br/>
+                    <input type="submit" id="sc-url-submit" class="Button">
+                </form>
+            </div>
+            <div id="inside-ac-border" onClick='hideACWindow();'>
+                <div id="inside-ac-handle"><div class="ac-logo"></div></div>
             </div>
         </div>
-        <div id="scene">
+        <div id="ac-border" onClick='showACWindow();'>
+            <div id="ac-handle"><div class="ac-logo"></div></div>
         </div>
         <!-- These basic control box that contains the simple controls -->
 		<div id="ControlBox">

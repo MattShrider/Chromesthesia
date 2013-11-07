@@ -122,6 +122,68 @@ a:active {color:#1fcaee;}  /* selected link */
 	z-index: -1;
 }
 
+#advance-controls {
+	display: none;
+}
+
+#ac-border {
+	position: fixed;
+	top: 0;
+	right: 0;
+	height: 90%;
+	width: 20px;
+	background: rgb(50,50,50)
+}
+
+#inside-ac-border{
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	height: 100%;
+	width: 10%;
+	max-width: 20px;
+	background: rgb(50,50,50);
+	z-index: -1;
+}
+
+#ac-handle, #inside-ac-handle{
+	position: absolute;
+	top: 45%;
+	width: 100%;
+	height: 10%;
+	background: rgb(0,0,0);
+}
+
+.ac-logo {
+	position: absolute;
+	background-image: url("../images/AC.png");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	height: 100%;
+	width: 100%;
+}
+
+#sc-auth{
+	position: absolute;
+	width: 95%;
+	height: 15%;
+	left: 10%;
+	top: 0%;
+	border-style: solid;
+	border-color: rgb(50,50,50);
+}
+
+ #sc-song {
+	position: absolute;
+	width: 95%;
+	height: 15%;
+	left: 10%;
+	top: 15%;
+	border-style: solid;
+	border-color: rgb(50,50,50);
+
+ }
+
 #pageslide {
     /* These styles MUST be included. Do not change. */
     
@@ -269,7 +331,7 @@ a:active {color:#1fcaee;}  /* selected link */
 	border: solid;
 	border-width: 2px;
 	border-radius: 5px;
-	border-color: rgba(15,15,15,10);
+	border-color: rgba(45,45,45,10);
 	vertical-align: center;
 	text-align: center;
 	background: rgba(0,0,0,0);
