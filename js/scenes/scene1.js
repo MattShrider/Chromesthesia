@@ -1,3 +1,9 @@
+//Author: Matthew Shrider
+//Wrap the scene in a function to protect scope.
+//The function must return the object containing the domElement
+
+var frequencyScene = (function(){
+
 var scene = new THREE.Scene();
 var width = 210;
 var height = 110;
@@ -6,14 +12,10 @@ var camera = new THREE.PerspectiveCamera(60,window.innerWidth / window.innerHeig
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 
-window.addEventListener( 'resize', onWindowResize, false);
+//Scenes shouldn't manage the window
+//window.addEventListener( 'resize', onWindowResize, false);
 
 var notes = new Array();
-
-document.body.appendChild(renderer.domElement);
-
-
-
 
 var uniformsArray = [];
 var i=0;
@@ -77,3 +79,13 @@ function changedControls(){
 }
 
 animate();
+   return {renderer: renderer,
+           camera: camera,
+           resize: function(width, height){
+                  renderer.setSize( width, height );
+                  camera.aspect = width / height;
+                  camera.updateProjectionMatrix();
+           }};
+})()
+
+loadScene(frequencyScene);
