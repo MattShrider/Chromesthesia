@@ -412,7 +412,17 @@ body {
 	margin: 0 !important;
 }
 
+/* dont modify canvas, it breaks everything
 canvas {
+	width: 100% !important;
+	height: 90% !important;
+	top: 0%;
+	position: fixed;
+	z-index: -1000;
+}
+   */
+
+#graphics {
 	width: 100% !important;
 	height: 90% !important;
 	top: 0%;

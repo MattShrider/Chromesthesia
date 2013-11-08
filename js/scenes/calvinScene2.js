@@ -65,8 +65,9 @@ animate();
 
 return {renderer: renderer,
         camera: camera,
-        resize: function(width, height){
-           renderer.setSize( width, height );
+        appendTo: function(domNode, width, height){
+           renderer.setSize( width, height);
+           domNode.appendChild(renderer.domElement);
            camera.aspect = width / height;
            camera.updateProjectionMatrix();
         }

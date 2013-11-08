@@ -81,7 +81,8 @@ function changedControls(){
 animate();
    return {renderer: renderer,
            camera: camera,
-           resize: function(width, height){
+           appendTo: function(domNode, width, height){
+                  domNode.appendChild(renderer.domElement);
                   renderer.setSize( width, height );
                   camera.aspect = width / height;
                   camera.updateProjectionMatrix();

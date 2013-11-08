@@ -5,7 +5,8 @@
  * Each scene should return an object with keys:
  *   renderer:  the object containing the .domElement property
  *   camera:  the camera object
- *   resize: a function which will resize the scene taking parameters (width, height)
+ *   appendTo: a function taking inputs (domNode, width, height) which
+ *          will resize the scene, and append the domElement to the domNode
  *
  *
  * Additionally, your scene shouldn't manually add itself to the window,
@@ -14,28 +15,36 @@
  * P.S. Make sure you add your scene using loadScene after you make it!
  * ********************************************************/
 
+var container;
+
+container = document.createElement( 'div' );
+document.body.appendChild( container );
+container.id = "graphics";
+
 var sceneArray = [];
 var currentScene = -1;
 
 function switchToScene(index){
-   if (index >= sceneArray.length)
+   if (index >= sceneArray.length || index == currentScene)
       return;
 
-   document.body.appendChild(sceneArray[index].renderer.domElement);
-
-   //TODO - This needs to move the domElement of the current scene to a div somewhere (see below)
-   //$('someDiv' + currentScene).appendChild(sceneArray[currentScene].renderer.domElement);
-   sceneArray[index].resize(window.innerWidth, window.innerHeight);
-   //sceneArray[currentScene].resize( replace This with, the size of the div );
+   //Change this to:
+   //var someDiv = $('#someDiv' + currentScene)[0]
+   //sceneArray[currentScene].appendTo(someDiv, someDiv.clientWidth, someDiv.clientHeight);  
+   sceneArray[currentScene].appendTo($('#pause-image')[0], 100, 100);
+   sceneArray[index].appendTo(container, window.innerWidth, window.innerHeight);
 
    currentScene = index;
 }
 
 function loadScene(scene){
+   if ($.inArray(scene, sceneArray) != -1)
+      return;
+
    sceneArray.push(scene);
 
    if (currentScene < 0){
-      document.body.appendChild(scene.renderer.domElement);
+      container.appendChild(scene.renderer.domElement);
       currentScene = 0;
    }
 
