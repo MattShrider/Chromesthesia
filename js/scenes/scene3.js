@@ -1,3 +1,5 @@
+var scene3 = (function(){
+
 var scene = new THREE.Scene();
 var width = 210;
 var height = 110;
@@ -6,9 +8,6 @@ var camera = new THREE.PerspectiveCamera(60,window.innerWidth / window.innerHeig
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 
-window.addEventListener( 'resize', onWindowResize, false);
-
-document.body.appendChild(renderer.domElement);
 
 var notes = new Array();
 var uniformsArray = [];
@@ -85,3 +84,18 @@ function changedControls(){
 }
 
 animate();
+
+
+return {renderer: renderer,
+        camera: camera,
+        appendTo: function(domNode, width, height){
+           renderer.setSize( width, height);
+           domNode.appendChild(renderer.domElement);
+           camera.aspect = width / height;
+           camera.updateProjectionMatrix();
+        }
+       }
+
+})()
+
+loadScene(scene3);
