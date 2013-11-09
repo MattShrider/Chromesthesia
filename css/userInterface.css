@@ -173,7 +173,7 @@ a:active {color:#1fcaee;}  /* selected link */
 	border-color: rgb(50,50,50);
 }
 
- #sc-song {
+#sc-song {
 	position: absolute;
 	width: 95%;
 	height: 15%;
@@ -182,7 +182,30 @@ a:active {color:#1fcaee;}  /* selected link */
 	border-style: solid;
 	border-color: rgb(50,50,50);
 
- }
+}
+
+#scene-select {
+	position: absolute;
+	width: 95%;
+	height: 60%;
+	overflow-y: auto;
+	top: 35%;
+	left: 10%;
+}
+
+.sceneIcon{
+	width: 90%;
+	height: 25px;
+	border-style: solid;
+	border-color: silver;
+}
+
+.sceneIcon:hover {
+	width: 90%;
+	height: 25px;
+	border-style: solid;
+	border-color: green;	
+}
 
 #pageslide {
     /* These styles MUST be included. Do not change. */
@@ -281,6 +304,8 @@ a:active {color:#1fcaee;}  /* selected link */
 	height: 100%;
 	width: 100%;
 }
+
+
 
 #play-image {
 	background-image: url("../images/play.png");

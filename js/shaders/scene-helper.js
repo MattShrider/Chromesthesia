@@ -28,10 +28,10 @@ function switchToScene(index){
    if (index >= sceneArray.length || index == currentScene)
       return;
 
-   //Change this to:
-   //var someDiv = $('#someDiv' + currentScene)[0]
-   //sceneArray[currentScene].appendTo(someDiv, someDiv.clientWidth, someDiv.clientHeight);  
-   sceneArray[currentScene].appendTo($('#pause-image')[0], 100, 100);
+   sceneIcon = sceneCont = document.getElementById('scene'+currentScene);
+
+   sceneArray[currentScene].appendTo(sceneIcon, sceneIcon.clientWidth, sceneIcon.clientHeight);  
+   console.log("Switching to scene:" + index)
    sceneArray[index].appendTo(container, window.innerWidth, window.innerHeight);
 
    currentScene = index;
@@ -48,9 +48,21 @@ function loadScene(scene){
       currentScene = 0;
    }
 
-   //$('someDiv' + sceneArray.length - 1).appendChild(scene.renderer.domElement);
+   loadedScene = sceneArray.length - 1;
+   
+   console.log("Scene " + loadedScene + " loaded");
+   appendScene(loadedScene);
+   if (loadedScene != 0){
+      sceneCont = document.getElementById('scene'+loadedScene);
+      sceneArray[sceneArray.length - 1].appendTo(sceneCont, sceneCont.width, sceneCont.height);
+   }
    //TODO - Same as above, but when we load a scene, add its renderer to its thumbnail div
 }
+
+function appendScene(index){
+   $('#advance-controls #scene-select').append("<div id='scene" + index + "' class='sceneIcon' onClick='switchToScene(" + index + ")'></div>");
+}
+
 
 loadShader = function(filepath) {
    var request = new XMLHttpRequest();
