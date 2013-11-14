@@ -265,7 +265,9 @@ function positionCallback() {
    return songPercent;
 }
 setInterval(function(){
- SongPosition.value = positionCallback(); 
+   if (!positionMouseDown){
+      SongPosition.value = positionCallback(); 
+   }
 }, 1000);
 
 //event called after the song has started playing after it was stopped

@@ -1,6 +1,7 @@
 var songQueue = [];
 var fileNames = [];
 var currentSong = 0;
+var positionMouseDown = false;
 
 //Functions on what happens when each button is clicked
 $("#LocalButton").click(function(){
@@ -55,7 +56,12 @@ LocalSong.onchange = function(){
    $("#WelcomeBanner").hide();
 };
 
-SongPosition.onchange = function(){
+SongPosition.onmousedown = function(){
+    positionMouseDown = true;
+};
+
+SongPosition.onmouseup = function(){
+    positionMouseDown = false;
     setPosition(this.value);
 };
 
