@@ -56,11 +56,6 @@ function animate(){
          notes[x].scale.x = (scale < 0.08 ? 0.08 : scale);
          notes[x].scale.y = (scale < 0.08 ? 0.08 : scale);
          notes[x].scale.z = (scale < 0.08 ? 0.08 : scale);
-         //notes[x].x = (scale < 0.01 ? 0.40 : scale);
-         //notes[x].z = (scale < 1 ? 20 : scale);
-         //notes[x].y = (scale < 1 ? 10 : scale);
-        // notes[x].rotation.z += (scale < 0.08 ? 0.08 : scale);
-         //notes[x].rotation.y -= (scale < 0.04 ? 0.12 : scale);
          scale = scale / max;
          uniformsArray[x].uHeight.value = (scale > 1.0 ? 1.0 : scale);
          uniformsArray[x].uTime.value = context.currentTime;
