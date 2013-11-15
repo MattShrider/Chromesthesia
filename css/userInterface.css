@@ -182,15 +182,15 @@ a:active {color:#1fcaee;}  /* selected link */
 }
 
 .sceneIcon{
-	width: 90%;
-	height: 25px;
+	width: 222px;
+	height: 125px;
 	border-style: solid;
 	border-color: silver;
 }
 
 .sceneIcon:hover {
-	width: 90%;
-	height: 25px;
+	/*width: 90%;*/
+	/*height: 25px;*/
 	border-style: solid;
 	border-color: green;	
 }

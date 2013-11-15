@@ -40,6 +40,7 @@ for (var x = 0; x < 256; x++){
    notes[x].position.x = -(256/2)*0.5+x*0.5;
    notes[x].position.y = 0;
    notes[x].position.z = 0;
+   notes[x].scale.y = 0.1;
 
 
    scene.add(notes[x]);
@@ -52,16 +53,19 @@ camera.position.z = 80;
 function animate(){
    if(typeof songArray === 'object' && songArray.length > 0) {
       for (var x=0; x < songArray.length; x++){
-         var max = 1;
-         var scale = songArray[x] / 40;
-         if (scale > max)
-            max = scale;
-         notes[x].scale.y = (scale < 0.08 ? 0.08 : scale);
-         scale = scale / max;
-         uniformsArray[x].uHeight.value = (scale > 1.0 ? 1.0 : scale);
-         uniformsArray[x].uTime.value = context.currentTime;
-      }
+            var max = 1;
+            var scale = songArray[x] / 40;
+            if (songs.now.source && songs.now.source.playbackState == AudioBufferSourceNode.PLAYING_STATE){
+               if (scale > max)
+                  max = scale;
+               notes[x].scale.y = (scale < 0.08 ? 0.08 : scale);
+               scale = scale / max;
+               uniformsArray[x].uHeight.value = (scale > 1.0 ? 1.0 : scale);
+            }
+            uniformsArray[x].uTime.value = context.currentTime;
+         }
    }
+
 
    renderer.render(scene,camera);
    requestAnimationFrame(function(){animate();});

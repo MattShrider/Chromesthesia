@@ -21,6 +21,9 @@ container = document.createElement( 'div' );
 document.body.appendChild( container );
 container.id = "graphics";
 
+var sceneContainer;
+
+
 var sceneArray = [];
 var currentScene = -1;
 
