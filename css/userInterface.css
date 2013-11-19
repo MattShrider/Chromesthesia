@@ -17,17 +17,11 @@ a:active {color:#1fcaee;}  /* selected link */
 	color: silver;
 }
 
-#LocalButton, #RemoteButton, #SampleButton {
-	width: 100%;
-}
-
-#LoadRemoteDialog {
-	position: fixed;
-	width: 300px;
-	height: 150px;
-	left: 35%;
-	top: 35%;
-	z-index: 99;
+#LocalButton, #SampleButton {
+	width: 50%;
+	height: 100%;
+	position: relative;
+	float: left;
 }
 
 .SubmitCancel {
@@ -35,12 +29,6 @@ a:active {color:#1fcaee;}  /* selected link */
 	width: 95%;
 	height: 10%;
 	bottom: 10px;
-}
-
-#RemoteCancel {
-	float: right;
-	width: 75px;
-	height: 15px;
 }
 
 #RemoteSubmit {
@@ -53,7 +41,7 @@ a:active {color:#1fcaee;}  /* selected link */
 	right: 0%;
 	bottom: 10%;
 	position: fixed;
-	z-index: 100;
+	z-index: 999999999999;
 }
 
 #SettingsDialog {
@@ -122,6 +110,91 @@ a:active {color:#1fcaee;}  /* selected link */
 	z-index: -1;
 }
 
+#advance-controls {
+	display: none;
+}
+
+#ac-border {
+	position: fixed;
+	top: 0;
+	right: 0;
+	height: 90%;
+	width: 20px;
+	background: rgb(50,50,50)
+}
+
+#inside-ac-border{
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	height: 100%;
+	width: 10%;
+	max-width: 20px;
+	background: rgb(50,50,50);
+	z-index: -1;
+}
+
+#ac-handle, #inside-ac-handle{
+	position: absolute;
+	top: 45%;
+	width: 100%;
+	height: 10%;
+	background: rgb(0,0,0);
+}
+
+.ac-logo {
+	position: absolute;
+	background-image: url("../images/AC.png");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	height: 100%;
+	width: 100%;
+}
+
+#sc-auth{
+	position: absolute;
+	width: 95%;
+	height: 15%;
+	left: 10%;
+	top: 0%;
+	border-style: solid;
+	border-color: rgb(50,50,50);
+}
+
+#sc-song {
+	position: absolute;
+	width: 95%;
+	height: 15%;
+	left: 10%;
+	top: 15%;
+	border-style: solid;
+	border-color: rgb(50,50,50);
+
+}
+
+#scene-select {
+	position: absolute;
+	width: 95%;
+	height: 60%;
+	overflow-y: auto;
+	top: 35%;
+	left: 10%;
+}
+
+.sceneIcon{
+	width: 222px;
+	height: 125px;
+	border-style: solid;
+	border-color: silver;
+}
+
+.sceneIcon:hover {
+	/*width: 90%;*/
+	/*height: 25px;*/
+	border-style: solid;
+	border-color: green;	
+}
+
 #pageslide {
     /* These styles MUST be included. Do not change. */
     
@@ -175,41 +248,44 @@ a:active {color:#1fcaee;}  /* selected link */
 }
 
 #SongVolume {
-	height: 90%;
+	position: relative;
+	top: 32%;
+	height: 25%;
+	width: 85%;
+	float: left;
 }
 
 #SongPosition:focus, #SongVolume:focus {
 	outline-color: black;
 }
 
-#VolumeContainer {
+#SongInfoContainer, #ControlButtons, #ContentButtons, #VolumeContainer {
+	position: relative;
+	float: left;
+}
+
+#SongInfoContainer {
 	color: silver;
-	position: absolute;
-	right: 0%;
-	top: 20%;
-	width: 10%;
-	height: 10%;
+	font-size: 1.2em;
+	top: 5px;
+	width: 30%;
+	height: 60%;
 }
 
 #ControlButtons {
-	position: absolute;
-	left: 35%;
-	top: 1%;
-	width: 50%;
+	width: 20%;
 	height: 50%;
 }
 
 #ContentButtons {
-	position: absolute;
-	top: 1%;
-	right: 15%;
 	height: 50%;
 	width: 20%;
 }
 
-#PlaySound, #StopSound {
-	height: 100%;
-	width: 10%;
+#VolumeContainer {
+	color: silver;
+	width: 20%;
+	height: 50%;
 }
 
 .icon-image {
@@ -236,24 +312,30 @@ a:active {color:#1fcaee;}  /* selected link */
 	background-image: url("../images/prev.png");
 }
 
+#upload-image {
+	background-image: url("../images/upload.png");	
+}
+
+#sample-image {
+	background-image: url("../images/sample.png");		
+}
+
+#volume-image {
+	position: relative;
+	float: left;
+	width: 10%;
+	height: 100%;
+	background-image: url("../images/volume.png");		
+}
+
+#PlaySound, #StopSound {
+	height: 100%;
+	width: 25%;
+}
+
 #PreviousSong, #NextSong {
-	height: 50%;
-	width: 12%;
-}
-
-#LocalButton {
-	height: 50%;
-	width: 100%;
-}
-
-#SongInfoContainer {
-	position: absolute;
-	color: silver;
-	font-size: 1.2em;
-	left: 5px;
-	top: 5px;
-	width: 30%;
-	height: 60%;
+	height: 100%;
+	width: 35%;
 }
 
 #SongName {
@@ -269,7 +351,7 @@ a:active {color:#1fcaee;}  /* selected link */
 	border: solid;
 	border-width: 2px;
 	border-radius: 5px;
-	border-color: rgba(15,15,15,10);
+	border-color: rgba(45,45,45,10);
 	vertical-align: center;
 	text-align: center;
 	background: rgba(0,0,0,0);
@@ -412,7 +494,17 @@ body {
 	margin: 0 !important;
 }
 
+/* dont modify canvas, it breaks everything
 canvas {
+	width: 100% !important;
+	height: 90% !important;
+	top: 0%;
+	position: fixed;
+	z-index: -1000;
+}
+   */
+
+#graphics {
 	width: 100% !important;
 	height: 90% !important;
 	top: 0%;

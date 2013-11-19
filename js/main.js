@@ -264,7 +264,9 @@ function positionCallback() {
    return songPercent;
 }
 setInterval(function(){
- SongPosition.value = positionCallback(); 
+   if (!positionMouseDown){
+      SongPosition.value = positionCallback(); 
+   }
 }, 1000);
 
 //event called after the song has started playing after it was stopped
@@ -272,12 +274,14 @@ function playAfterStop(){
    console.log(context.currentTime + " -- Song started playing");
 
    //Call a function which should make the pause button visible
+   togglePlayPause();
 }
 
 function stopAfterPlay(){
    console.log(context.currentTime + " -- Song just paused");
 
    //Call a function which should make the play button visible
+   togglePlayPause();
 }
 
 

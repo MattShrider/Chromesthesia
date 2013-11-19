@@ -1,9 +1,16 @@
+//Wrap the scene in a function to protect scope.
+//The function must return the object containing the domElement
+
+var calvinScene = (function(){
+
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(60,window.innerWidth / window.innerHeight, 1, 1000);
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
-window.addEventListener( 'resize', onWindowResize, false);
-document.body.appendChild(renderer.domElement);
+//Scenes shouldn't manage the window
+//window.addEventListener( 'resize', onWindowResize, false);
+
+
 camera.position.z = 80;
 
 var radius = 25, segments = 256, rings = 256;
@@ -48,7 +55,6 @@ function onWindowResize() {
    camera.aspect = window.innerWidth / window.innerHeight;
    camera.updateProjectionMatrix();
    renderer.setSize( window.innerWidth, window.innerHeight);
-   animate();
 }
 
 function changedControls(){
@@ -56,3 +62,16 @@ function changedControls(){
    console.log(camera);
 }
 animate();
+
+return {renderer: renderer,
+        camera: camera,
+        appendTo: function(domNode, width, height){
+           renderer.setSize( width, height);
+           domNode.appendChild(renderer.domElement);
+           camera.aspect = width / height;
+           camera.updateProjectionMatrix();
+        }
+       }
+})()
+
+loadScene(calvinScene);
