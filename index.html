@@ -36,25 +36,6 @@
         <div id="scene">
         </div>
         <div id="advance-controls">
-            <div id="sc-auth">
-                <div class="sc-auth-title">Sound Cloud Credentials</div>
-                <form id="sc-auth-form">
-                    Username: <input type="text" name="sc-username" id="sc-username">
-                    <br/>
-                    Password: <input type="password" name="sc-pass" id="sc-pass">
-                    <br/>
-                    <button id="sc-auth-submit" class="Button">Submit</button>
-                </form>
-            </div>
-            <br/>
-            <div id="sc-song">
-                <div class="sc-url-title">Sound Cloud Song</div>
-                <form id="sc-url-form" >
-                    URL: <input type="text" name="sc-url" id="sc-url">
-                    <br/>
-                    <input type="submit" id="sc-url-submit" class="Button">
-                </form>
-            </div>
             <div id="scene-select">
             
             </div>
@@ -66,6 +47,18 @@
             <div id="ac-handle"><div class="ac-logo"></div></div>
         </div>
         <!-- These basic control box that contains the simple controls -->
+        <div id="soundModifiers" style="display: none;">
+            <div id="input-label" class="icon-image"></div>
+            <div id="modifier-array"></div>
+            <div id="AddRemoveMod">
+                <button id="AddMod" class="Button">
+                    <div id="add-mod-image" class="icon-image"></div>
+                </button>
+                <button id="DelMod" class="Button">
+                    <div id="del-mod-image" class="icon-image"></div>
+                </button>
+            </div>
+        </div>
 		<div id="ControlBox">
             <div id="CBControls" class="CBControls">
                 <!--<td id="RecordSound" > <button class="Button">Record</button></td>-->
@@ -81,14 +74,19 @@
                 <div id="ContentButtons">
                     <button id="LocalButton" class="Button" title="Load Local Song"><div id="upload-image" class="icon-image"></div></button>
                     <button id="SampleButton" class="Button" title="Load Sample song"><div id="sample-image" class="icon-image"></div></button>
+                    <button id="SoundModifier" class="Button" title="Add Sound Effects"><div id="modify-image" class="icon-image"></div></button>
                 </div>
                 <div id="VolumeContainer">
                     <div id="volume-image" class="icon-image"></div>
                     <input type="range" id="SongVolume" class="Slider" min="0" max="200" value="30">
                 </div>
+                <div id="minimize-control-box">
+                    <div id="min-icon" class="icon-image"></div>
+                </div>
                 <input type="range" id="SongPosition" class="Slider" min="0" max="1" step=".001" value="0">
             </div>
 		</div>
+        <div id="maximize-control-box"><div id="max-icon" class="icon-image"></div></div>
         <div id="LoadingIcon" style="display:none;"><img src="images/loading.gif"></img></div>
         <input multiple='multiples' id="LocalSong" type="file" accept="audio/*"style="display: none;" src="audio/sample.mp3"/>
         <script src="js/main.js"></script>
