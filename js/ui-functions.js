@@ -50,7 +50,7 @@ $("#SoundModifier").click(function() {
 });
 
 $("#AddMod").click(function(){
-    pushSoundMod();
+    pushSoundMod($("#soundModifiers #ModSelect option:selected").val());
 });
 
 $("#DelMod").click(function(){
@@ -62,14 +62,7 @@ LocalSong.onchange = function() {
     showQueue();
     for (var i = 0; i < this.files.length; i++) {
         addSong(this.files[i]);
-        /*
-        if (songQueue.length - 1 == 0){
-            loadClientSong(URL.createObjectURL(this.files[i])); 
-            updateCurrentSong(currentSong);
-        }    
-        */
     }
-
 
     $("#WelcomeBanner").hide();
 };
@@ -146,11 +139,51 @@ function hideSoundMod(){
 
 function pushSoundMod(type){
     var num = $('#soundModifiers #modifier-array .soundMod').length;
-    $("#soundModifiers #modifier-array").append("<div id='mod-"+num+"' class='soundMod' data-type='"+type+"'>MOD</div>");
+    switch(parseInt(type)){
+        case 2:
+            $("#soundModifiers #modifier-array").append("<div id='mod-"+num+"' class='soundMod' data-type='highpass'>" + createSoundModuleInternal('HighPass', 2) + "</div>");
+            break;
+        case 3:
+            $("#soundModifiers #modifier-array").append("<div id='mod-"+num+"' class='soundMod' data-type='bandpass'>" + createSoundModuleInternal('BandPass', 2) + "</div>");
+            break;
+        case 4:
+            $("#soundModifiers #modifier-array").append("<div id='mod-"+num+"' class='soundMod' data-type='lowshelf'>" + createSoundModuleInternal('LowShelf', 3) + "</div>");
+            break;
+        case 5:
+            $("#soundModifiers #modifier-array").append("<div id='mod-"+num+"' class='soundMod' data-type='highshelf'>" + createSoundModuleInternal('HighShelf', 3) + "</div>");
+            break;
+        case 6:
+            $("#soundModifiers #modifier-array").append("<div id='mod-"+num+"' class='soundMod' data-type='peaking'>" + createSoundModuleInternal('Peaking', 1) + "</div>");
+            break;
+        case 7:
+            $("#soundModifiers #modifier-array").append("<div id='mod-"+num+"' class='soundMod' data-type='notch'>" + createSoundModuleInternal('Notch', 2) + "</div>");
+            break;
+        case 8:
+            $("#soundModifiers #modifier-array").append("<div id='mod-"+num+"' class='soundMod' data-type='allpass'>" + createSoundModuleInternal('AllPass', 2) + "</div>");
+            break;
+        default: // Case 1
+            $("#soundModifiers #modifier-array").append("<div id='mod-"+num+"' class='soundMod' data-type='lowpass'>" + createSoundModuleInternal('LowPass', 2) + "</div>");
+    }
 }
 
 function popSoundMod(){
     $("#soundModifiers #modifier-array .soundMod:last-child").remove();
+}
+
+function createSoundModuleInternal(title,type){
+    switch(type){
+        case 2:
+            //No Gain Slider
+            return '<div class="mod-title">' + title + '</div><div class="mod-params"><input type="range" class="frequency Slider" min="165" max="535" step="10" value="350" title="Frequency" style="width: 40%;"><input type="range" class="q Slider" min=".0001" max="1000" step="10" value="1" title="Q" style="width: 40%;"></div>';
+            break;
+        case 3:
+            //No Q Slider
+            return '<div class="mod-title">' + title + '</div><div class="mod-params"><input type="range" class="frequency Slider" min="165" max="535" step="10" value="350" title="Frequency" style="width: 40%;"><input type="range" class="gain Slider" min="-40" max="40" step="1" value="1" title="Gain" style="width: 40%;"></div>';
+            break;
+        default:
+            //All 3 Sliders
+            return '<div class="mod-title">' + title + '</div><div class="mod-params"><input type="range" class="frequency Slider" min="165" max="535" step="10" value="350" title="Frequency" style="width: 26%;"><input type="range" class="q Slider" min=".0001" max="1000" step="10" value="1" title="Q" style="width: 26%;"><input type="range" class="gain Slider" min="-40" max="40" step="1" value="1" title="Gain" style="width: 26%;"></div>';
+    }
 }
 
 $("#sc-auth-form").on('submit', function(event) {
