@@ -13,6 +13,7 @@ var loadingBuffersUpTo = -1;
 var songHistory = new Array();
 var bufferIndex = -1;
 var previousSongLoaded = true;
+var filterArray = new Array();
 
 //Overload the modulo function to work with negative numbers (like it should)
 Number.prototype.mod = function(n) {
@@ -353,4 +354,86 @@ function loadSampleSong(){
    };
 
    xhr.send();
+}
+
+function appendAudioNode(){
+   var type = $("#mod-" + filterArray.length).data('type');
+   var freqSlider = $("#mod-" + filterArray.length + " .frequency");
+   var qSlider = $("#mod-" + filterArray.length + " .q");
+   var gainSlider = $("#mod-" + filterArray.length + " .gain");
+   var filterNode = context.createBiquadFilter();
+
+   switch (type){
+      case "allpass": filterNode.type = filterNode.ALLPASS;
+            break;
+      case "bandpass": filterNode.type = filterNode.BANDPASS;
+            break;
+      case "highpass": filterNode.type = filterNode.HIGHPASS;
+         break;
+      case "lowpass": filterNode.type = filterNode.LOWPASS;
+            break;
+      case "lowshelf": filterNode.type = filterNode.LOWSHELF;
+            break;
+      case "highshelf": filterNode.type = filterNode.HIGHSHELF;
+            break;
+      case "notch": filterNode.type = filterNode.NOTCH;
+         break;
+      case "peaking": filterNode.type = filterNode.PEAKING;
+         break;
+   }
+
+   filterNode.connect(volume);
+   filterNode.connect(analyser);
+
+   var filterObject = {
+      freqSlider: freqSlider,
+      qSlider: qSlider,
+      gainSlider: gainSlider,
+      filterNode: filterNode
+   };
+   filterArray.push(filterObject);
+   console.log(context.currentTIme + " -- Adding Filter" );
+
+   if (filterArray.length > 1){
+      filterArray[filterArray.length - 2].filterNode.disconnect();
+      filterArray[filterArray.length - 2].filterNode.connect(filterNode);
+   } else {
+      songs.now.gain.disconnect();
+      songs.now.gain.connect(filterNode);
+   }
+}
+
+function removeAudioNode(){
+   if (filterArray.length < 1) return;
+
+   var removedFilter = filterArray.pop();
+   console.log(context.currentTIme + " -- Removing Last Filter" );
+   removedFilter.filterNode.disconnect();
+
+   if (filterArray.length > 0){
+      filterArray[filterArray.length - 1].filterNode.disconnect();
+      filterArray[filterArray.length - 1].filterNode.connect(analyser);
+      filterArray[filterArray.length - 1].filterNode.connect(volume);
+   } else {
+      songs.now.gain.disconnect();
+      songs.now.gain.connect(analyser);
+      songs.now.gain.connect(volume);
+   }
+
+}
+
+function modifyFilter(index){
+   if (filterArray.length < 1) return;
+
+   var node = filterArray[index];
+   console.log(context.currentTime + " -- Modifying Biquad Filter: " + node);
+   node.filterNode.frequency.value = node.freqSlider.val();
+   if (node.qSlider.length != 0) {
+      node.filterNode.Q.value = node.qSlider.val();
+
+   }
+   if (node.gainSlider.length != 0) {
+      node.filterNode.gain.value = node.gainSlider.val();
+   }
+
 }
