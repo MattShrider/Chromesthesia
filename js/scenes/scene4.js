@@ -81,8 +81,6 @@ var christianScene = (function(){
             }
         }
 
-        controls.update();
-
         renderer.render(scene, camera);
         requestAnimationFrame(function(){animate();});
     }
@@ -125,4 +123,4 @@ var christianScene = (function(){
     }
 })()
 
-loadScene(christianScene);
+//loadScene(christianScene);
