@@ -164,25 +164,28 @@ function pushSoundMod(type){
         default: // Case 1
             $("#soundModifiers #modifier-array").append("<div id='mod-"+num+"' class='soundMod' data-type='lowpass'>" + createSoundModuleInternal('LowPass', 2) + "</div>");
     }
+    appendAudioNode();
 }
 
 function popSoundMod(){
     $("#soundModifiers #modifier-array .soundMod:last-child").remove();
+    removeAudioNode();
 }
 
 function createSoundModuleInternal(title,type){
+    var num = $('#soundModifiers #modifier-array .soundMod').length;
     switch(type){
         case 2:
             //No Gain Slider
-            return '<div class="mod-title">' + title + '</div><div class="mod-params"><input type="range" class="frequency Slider" min="165" max="535" step="10" value="350" title="Frequency" style="width: 40%;"><input type="range" class="q Slider" min=".0001" max="1000" step="10" value="1" title="Q" style="width: 40%;"></div>';
+            return '<div class="mod-title">' + title + '</div><div class="mod-params"><input type="range" class="frequency Slider" min="100" max="24000" step="10" onchange="modifyFilter(' + num + ')" value="350" title="Frequency" style="width: 40%;"><input type="range" class="q Slider" min=".001" max="100" step="5" onchange="modifyFilter(' + num + ')" value="1" title="Q" style="width: 40%;"></div>';
             break;
         case 3:
             //No Q Slider
-            return '<div class="mod-title">' + title + '</div><div class="mod-params"><input type="range" class="frequency Slider" min="165" max="535" step="10" value="350" title="Frequency" style="width: 40%;"><input type="range" class="gain Slider" min="-40" max="40" step="1" value="1" title="Gain" style="width: 40%;"></div>';
+            return '<div class="mod-title">' + title + '</div><div class="mod-params"><input type="range" class="frequency Slider" min="100" max="24000" step="10" onchange="modifyFilter(' + num + ')" value="350" title="Frequency" style="width: 40%;"><input type="range" class="gain Slider" min="-40" max="40" step="1" onchange="modifyFilter(' + num + ')" value="1" title="Gain" style="width: 40%;"></div>';
             break;
         default:
             //All 3 Sliders
-            return '<div class="mod-title">' + title + '</div><div class="mod-params"><input type="range" class="frequency Slider" min="165" max="535" step="10" value="350" title="Frequency" style="width: 26%;"><input type="range" class="q Slider" min=".0001" max="1000" step="10" value="1" title="Q" style="width: 26%;"><input type="range" class="gain Slider" min="-40" max="40" step="1" value="1" title="Gain" style="width: 26%;"></div>';
+            return '<div class="mod-title">' + title + '</div><div class="mod-params"><input type="range" class="frequency Slider" min="100" max="24000" step="10" onchange="modifyFilter(' + num + ')" value="350" title="Frequency" style="width: 26%;"><input type="range" class="q Slider" min=".001" max="100" step="5" onchange="modifyFilter(' + num + ')" value="1" title="Q" style="width: 26%;"><input type="range" class="gain Slider" min="-40" max="40" step="1" onchange="modifyFilter(' + num + ')" value="1" title="Gain" style="width: 26%;"></div>';
     }
 }
 
