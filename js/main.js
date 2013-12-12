@@ -1,4 +1,3 @@
-//From http://srchea.com/blog/2013/05/experimenting-with-web-audio-api-three-js-webgl/
 var context;
 var source, sourceJs;
 var url;
