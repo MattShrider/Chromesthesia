@@ -63,7 +63,10 @@ function loadScene(scene){
 }
 
 function appendScene(index){
-   $('#advance-controls #scene-select').append("<div id='scene" + index + "' class='sceneIcon' onClick='switchToScene(" + index + ")'></div>");
+   $('#advance-controls #scene-select').append("<div id='scene" + index + "' class='sceneIcon' onClick='switchToScene(" + index + ")'></div>")
+   $('#advance-controls #scene-select #scene'+index).css("background-image", 'url("../images/scene'+(index+1)+'.png")');
+   $('#advance-controls #scene-select #scene'+index).css("background-size", '100% 100%');
+   $('#advance-controls #scene-select #scene'+index).css("background-repeat", 'no-repeat');
 }
 
 
