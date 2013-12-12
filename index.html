@@ -15,6 +15,14 @@
         <link rel="stylesheet" type="text/css" href="css/fontselect.css" />
 		<!-- Javascript Files -->
 		<script src="js/three.min.js"></script>
+		<script src="js/OrbitControls.js"></script>
+		<script src="http://connect.soundcloud.com/sdk.js"></script>
+		<script src="http://code.jquery.com/jquery-1.7.2.js"></script>
+		<script>
+			SC.initialize({
+				client_id: 'ee3f2b00d38c3d4a1af27b2532f31bd5'
+				});
+		</script>
     </head>
     <body>
     	<!-- The Side-Window that will display the advanced controls -->
@@ -106,6 +114,7 @@
         <script src="js/scenes/scene1.js"></script>
         <script src="js/scenes/scene2.js"></script>
         <script src="js/scenes/scene3.js"></script>
+	<!--<script src="js/scenes/scene4.js"></script>-->
     </body>
 	<!-- These js files need to be down here to work correctly -->
 	<script type="text/javascript" src="js/jquery.pageslide.min.js"></script>

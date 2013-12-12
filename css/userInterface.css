@@ -182,8 +182,9 @@ a:active {color:#1fcaee;}  /* selected link */
 }
 
 .sceneIcon{
-	width: 222px;
-	height: 125px;
+	position: relative;
+	width: 90%;
+	height: 15%;
 	border-style: solid;
 	border-color: silver;
 }
